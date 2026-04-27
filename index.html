@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0b10">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>MOU</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{--bg:#0b0b10;--s1:#111118;--s2:#17171f;--s3:#1e1e2a;--brd:#252535;--tx:#e6e6f0;--tx2:#8e8ea8;--tx3:#5a5a72;--ac:#00dfa8;--ac2:rgba(0,223,168,.1);--ac3:rgba(0,223,168,.2);--vl:#7c6cff;--vl2:rgba(124,108,255,.1);--rd:#ff5c75;--am:#f0a030;--am2:rgba(240,160,48,.1);--wa:#25d366;--wa2:rgba(37,211,102,.1)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overscroll-behavior:none}
+.app{max-width:440px;margin:0 auto;height:100%;display:flex;flex-direction:column}
+
+.hd{padding:max(env(safe-area-inset-top),10px) 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd);flex-shrink:0}
+.hd-l{display:flex;align-items:center;gap:9px}
+.mk{width:28px;height:28px;border-radius:8px;background:var(--ac);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11px;color:var(--bg)}
+.hd-n{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;letter-spacing:3px}
+.hd-r{display:flex;align-items:center;gap:6px}
+.ib{background:none;border:none;color:var(--tx3);font-size:16px;cursor:pointer;padding:5px}
+.ibg{color:var(--ac);font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;display:none}
+
+.fd{flex:1;overflow-y:auto;padding:6px 16px 0;display:flex;flex-direction:column;gap:8px;-webkit-overflow-scrolling:touch}
+.fd::-webkit-scrollbar{width:0}
+.fd::after{content:'';display:block;min-height:130px;flex-shrink:0}
+
+/* Card */
+.cd{background:var(--s1);border:1px solid var(--brd);border-radius:16px;padding:12px 14px;animation:ci .25s ease-out}
+@keyframes ci{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.cd-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cd-time{font-size:9px;color:var(--tx3);font-family:'IBM Plex Mono',monospace}
+.cd-del{background:none;border:none;color:var(--tx3);font-size:12px;cursor:pointer;opacity:.3}
+.cd-tag{display:inline-block;padding:3px 8px;border-radius:6px;font-size:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.cd-tag.raw{background:var(--s3);color:var(--tx3)}
+.cd-tag.saved{background:var(--ac2);color:var(--ac)}
+.cd-tag.summary{background:var(--vl2);color:var(--vl)}
+.cd-tag.post{background:var(--am2);color:var(--am)}
+.cd-tag.sent{background:var(--wa2);color:var(--wa)}
+
+.cd-body{font-size:12.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;margin:8px 0}
+.cd-body strong{color:var(--ac);font-weight:600}
+.cd-body em{color:var(--tx2)}
+
+.cd-acts{display:flex;flex-wrap:wrap;gap:5px}
+.cb{padding:7px 12px;border-radius:9px;border:1px solid var(--brd);background:var(--s2);color:var(--tx);font-size:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.1s}
+.cb:active{transform:scale(.96)}
+.cb.green{border-color:var(--ac);color:var(--ac)}
+.cb.purple{border-color:var(--vl);color:var(--vl)}
+.cb.orange{border-color:var(--am);color:var(--am)}
+.cb.whatsapp{border-color:var(--wa);color:var(--wa)}
+
+/* Pending action card */
+.cd.pending{border-color:var(--ac3)}
+
+/* Empty */
+.ey{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;gap:12px}
+.ey-g{font-size:38px;opacity:.2}
+.ey-t{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tx3)}
+.ey-s{font-size:11px;color:var(--tx3);opacity:.45;max-width:240px;line-height:1.6}
+
+/* Voice bar */
+.vb{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;padding:8px 16px calc(env(safe-area-inset-bottom,8px)+8px);background:linear-gradient(to top,var(--bg) 65%,transparent);z-index:100}
+.vb-in{display:flex;align-items:center;gap:9px;background:var(--s1);border:1px solid var(--brd);border-radius:20px;padding:6px}
+.mb{width:48px;height:48px;border-radius:50%;border:none;background:var(--s3);color:var(--tx);font-size:18px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.mb.on{background:var(--ac);color:var(--bg)}
+.mb.on::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ac);animation:rn 1.3s ease-out infinite}
+@keyframes rn{from{transform:scale(1);opacity:.5}to{transform:scale(1.4);opacity:0}}
+.mb.pr{background:var(--vl);color:#fff}
+.vs{flex:1;min-width:0}
+.vl{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--tx3)}
+.vt{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vt.dm{color:var(--tx3);font-style:italic}
+.wv{display:flex;align-items:center;gap:2px;height:20px;margin-right:5px}
+.wv.off{display:none}
+.wv i{width:2.5px;background:var(--ac);border-radius:2px}
+.wv i:nth-child(1){height:6px;animation:w .45s ease-in-out infinite alternate}
+.wv i:nth-child(2){height:12px;animation:w .45s .07s ease-in-out infinite alternate}
+.wv i:nth-child(3){height:20px;animation:w .45s .14s ease-in-out infinite alternate}
+.wv i:nth-child(4){height:12px;animation:w .45s .21s ease-in-out infinite alternate}
+.wv i:nth-child(5){height:6px;animation:w .45s .28s ease-in-out infinite alternate}
+@keyframes w{from{transform:scaleY(.2)}to{transform:scaleY(1)}}
+
+/* Modal */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.ov.op{display:flex}
+.md{width:100%;max-width:440px;background:var(--s1);border-radius:20px 20px 0 0;border:1px solid var(--brd);border-bottom:none;padding:18px 16px calc(env(safe-area-inset-bottom,16px)+16px);animation:mu .2s ease-out;max-height:88dvh;overflow-y:auto}
+@keyframes mu{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.md-b{width:28px;height:3px;background:#333;border-radius:2px;margin:0 auto 16px}
+.md h2{font-family:'IBM Plex Mono',monospace;font-size:14px;margin-bottom:14px}
+.fl{margin-bottom:12px}
+.fl label{display:block;font-size:9px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--tx3);margin-bottom:4px}
+.fl .hn{font-size:9px;color:var(--tx3);opacity:.4;margin-top:2px}
+.fl input{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:10px;color:var(--tx);font-family:'Manrope',sans-serif;font-size:12px;outline:none}
+.fl input:focus{border-color:var(--ac)}
+.fl input::placeholder{color:var(--tx3);opacity:.35}
+.sec{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--tx3);margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--brd)}
+.sv{width:100%;padding:12px;border:none;border-radius:12px;background:var(--ac);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;cursor:pointer;margin-top:10px}
+
+/* Lock */
+.lock{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:20px}
+.lock.off{display:none}
+.lock .mk{width:48px;height:48px;font-size:16px;border-radius:14px}
+.lock h1{font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:4px}
+.lock p{font-size:11px;color:var(--tx3);max-width:260px;text-align:center;line-height:1.5}
+
+/* Toast */
+.tt{position:fixed;top:max(env(safe-area-inset-top),14px);left:50%;transform:translateX(-50%) translateY(-80px);background:var(--s2);border:1px solid var(--brd);border-radius:12px;padding:9px 16px;font-size:11px;z-index:300;transition:transform .25s ease;white-space:nowrap}
+.tt.sh{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="lock" id="lock">
+  <div class="mk">M</div><h1>MOU</h1>
+  <p>Tu asistente de voz personal.<br>PIN para desbloquear.</p>
+  <div class="fl" style="width:260px"><input type="password" id="pinIn" placeholder="PIN 4+ dígitos" maxlength="8" inputmode="numeric" style="text-align:center;font-size:18px;letter-spacing:8px"/></div>
+  <button class="sv" style="width:260px" onclick="tryUnlock()">ENTRAR</button>
+  <p id="lockErr" style="font-size:10px;color:var(--rd);display:none">PIN incorrecto</p>
+  <p style="margin-top:8px;font-size:9px;opacity:.3">Primera vez? Pon un PIN y se guardará.</p>
+</div>
+
+<div class="app" id="app" style="display:none">
+  <header class="hd">
+    <div class="hd-l"><div class="mk">M</div><span class="hd-n">MOU</span></div>
+    <div class="hd-r">
+      <button class="ib ibg" id="installBtn" onclick="doInstall()">⬇ INSTALAR</button>
+      <button class="ib" onclick="lockApp()">🔒</button>
+      <button class="ib" onclick="openCfg()">⚙</button>
+    </div>
+  </header>
+
+  <div class="fd" id="feed">
+    <div class="ey" id="emp">
+      <div class="ey-g">🎙</div>
+      <div class="ey-t">Di algo para empezar</div>
+      <div class="ey-s">Pulsa el micro, habla, y elige qué hacer: guardar, resumir en bullets, preparar post o enviar por WhatsApp.</div>
+    </div>
+  </div>
+
+  <div class="vb">
+    <div class="vb-in">
+      <button class="mb" id="mic" onclick="toggleMic()">🎤</button>
+      <div class="vs"><div class="vl" id="vL">micrófono</div><div class="vt dm" id="vT">Pulsa para hablar</div></div>
+      <div class="wv off" id="wv"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings -->
+<div class="ov" id="cfgO">
+  <div class="md">
+    <div class="md-b"></div>
+    <h2>⚙ Configuración</h2>
+    <div class="fl"><label>API Key OpenAI</label><input type="password" id="cApi" placeholder="sk-..." /><div class="hn">platform.openai.com → API Keys → Create</div></div>
+    <div class="fl"><label>Tu nombre</label><input type="text" id="cNm" placeholder="Tu nombre" /></div>
+    <div class="fl"><label>Contexto de trabajo</label><input type="text" id="cCx" placeholder="ej: CEO de startup de marketing" /></div>
+    <div class="fl"><label>Cambiar PIN</label><input type="password" id="cPn" placeholder="Nuevo PIN (opcional)" maxlength="8" inputmode="numeric" /></div>
+    <div class="sec">📱 WhatsApp</div>
+    <div class="fl"><label>Tu número WhatsApp</label><input type="tel" id="cWa" placeholder="+34612345678" /><div class="hn">Con código de país. Para enviarte notas a ti mismo.</div></div>
+    <button class="sv" onclick="saveCfg()">GUARDAR</button>
+  </div>
+</div>
+
+<div class="tt" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+function xE(t,k){if(!t||!k)return t;let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(r)}
+function xD(e,k){if(!e||!k)return e;try{const d=atob(e);let r='';for(let i=0;i<d.length;i++)r+=String.fromCharCode(d.charCodeAt(i)^k.charCodeAt(i%k.length));return r}catch(x){return e}}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sh');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('sh'),2500)}
+function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function ago(iso){if(!iso)return'';const m=Math.floor((Date.now()-new Date(iso).getTime())/6e4);if(m<1)return'ahora';if(m<60)return m+'m';const h=Math.floor(m/60);if(h<24)return h+'h';return Math.floor(h/24)+'d'}
+
+let items=JSON.parse(localStorage.getItem('mou4_i')||'[]');
+let cfg=JSON.parse(localStorage.getItem('mou4_c')||'{}');
+let pin=localStorage.getItem('mou4_p')||'';
+let isOn=false,isPr=false,recog=null;
+
+// ── Lock ──
+function tryUnlock(){const v=$('pinIn').value;if(!pin){if(v.length<4){toast('⚠ Mínimo 4 dígitos');return}pin=v;localStorage.setItem('mou4_p',pin);unlock()}else if(v===pin)unlock();else{$('lockErr').style.display='block';$('pinIn').value=''}}
+function unlock(){$('lock').classList.add('off');$('app').style.display='flex';loadUI();render()}
+function lockApp(){$('lock').classList.remove('off');$('app').style.display='none';$('pinIn').value='';$('lockErr').style.display='none';stopPTT()}
+$('pinIn').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
+
+// ── Config ──
+function loadUI(){$('cApi').value=cfg.ak?xD(cfg.ak,pin):'';$('cNm').value=cfg.nm||'';$('cCx').value=cfg.cx||'';$('cWa').value=cfg.wa||'';if(!cfg.ak)setTimeout(openCfg,300)}
+function openCfg(){$('cfgO').classList.add('op')}
+function saveCfg(){
+  const raw=$('cApi').value.trim(),np=$('cPn').value.trim();
+  if(np&&np.length>=4){pin=np;localStorage.setItem('mou4_p',pin)}
+  cfg={ak:raw?xE(raw,pin):'',nm:$('cNm').value.trim(),cx:$('cCx').value.trim(),wa:$('cWa').value.trim()};
+  localStorage.setItem('mou4_c',JSON.stringify(cfg));$('cfgO').classList.remove('op');toast('✓ Guardado')
+}
+$('cfgO').addEventListener('click',e=>{if(e.target.id==='cfgO')e.target.classList.remove('op')});
+
+// ── Speech Recognition ──
+let pttS=[];let silT=null;
+function killSR(){if(recog){try{recog.abort()}catch(e){}recog=null}clearTimeout(silT)}
+function toggleMic(){if(isPr)return;if(isOn)sendPTT();else startPTT()}
+
+function startPTT(){
+  killSR();pttS=[];isOn=true;
+  $('mic').classList.add('on');$('mic').textContent='⏹';
+  $('vL').textContent='escuchando...';$('vT').textContent='Habla ahora...';$('vT').classList.add('dm');$('wv').classList.remove('off');
+  launchPTT()
+}
+
+function launchPTT(){
+  const S=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!S){toast('⚠ Sin soporte de voz');return}
+  recog=new S();recog.lang='es-ES';recog.interimResults=true;recog.continuous=false;
+  recog.onresult=e=>{
+    let fin='',int='';
+    for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)fin+=e.results[i][0].transcript;else int+=e.results[i][0].transcript}
+    if(fin)pttS.push(fin.trim());
+    const show=(pttS.join('. ')+(int?' '+int:'')).trim();
+    $('vT').textContent=show||'Habla...';$('vT').classList.toggle('dm',!show);
+    clearTimeout(silT);silT=setTimeout(()=>{if(isOn&&pttS.length)sendPTT()},4000)
+  };
+  recog.onerror=e=>{if(e.error==='no-speech'){if(pttS.length)sendPTT();else if(isOn)setTimeout(()=>{if(isOn)launchPTT()},200)}else if(e.error!=='aborted'){toast('⚠ '+e.error);stopPTT()}};
+  recog.onend=()=>{if(!isOn||isPr)return;clearTimeout(silT);if(pttS.length)silT=setTimeout(()=>{if(isOn)sendPTT()},4000);setTimeout(()=>{if(isOn&&!isPr)launchPTT()},250)};
+  try{recog.start()}catch(e){}
+  if(!pttS.length){clearTimeout(silT);silT=setTimeout(()=>{if(isOn&&!pttS.length)stopPTT()},10000)}
+}
+
+function sendPTT(){const txt=pttS.join('. ').trim();stopPTT();if(txt.length>2)addRaw(txt)}
+function stopPTT(){isOn=false;killSR();pttS=[];$('mic').classList.remove('on');$('mic').textContent='🎤';$('wv').classList.add('off');$('vL').textContent='micrófono';$('vT').textContent='Pulsa para hablar';$('vT').classList.add('dm')}
+
+// ── Items ──
+function addRaw(text){
+  const it={id:Date.now(),status:'raw',text:text,processed:null,ts:new Date().toISOString()};
+  items.unshift(it);save();render();
+  toast('✓ Transcripción lista — elige acción')
+}
+
+function save(){localStorage.setItem('mou4_i',JSON.stringify(items))}
+
+function delIt(id){items=items.filter(i=>i.id!==id);save();render()}
+
+// ── Actions ──
+function doSave(id){
+  const it=items.find(i=>i.id===id);if(!it)return;
+  it.status='saved';save();render();toast('💾 Guardada')
+}
+
+async function doSummary(id){
+  const it=items.find(i=>i.id===id);if(!it)return;
+  const result=await callGPT(
+    `Resume este texto en bullets concisos en castellano. Solo bullets, nada más:\n\n${it.text}`
+  );
+  if(result){it.processed=result;it.status='summary';save();render();toast('📋 Resumen listo')}
+}
+
+async function doPost(id){
+  const it=items.find(i=>i.id===id);if(!it)return;
+  const result=await callGPT(
+    `A partir de este texto, genera un post profesional en castellano con este formato exacto:
+
+TÍTULO: (título atractivo)
+SLUG: (slug-en-minusculas-con-guiones)
+META TITLE: (máx 60 caracteres, SEO)
+META DESCRIPTION: (máx 155 caracteres, SEO)
+
+POST:
+(contenido del post, profesional, con gancho, 150-300 palabras)
+
+Texto original:\n${it.text}`
+  );
+  if(result){it.processed=result;it.status='post';save();render();toast('✏️ Post generado')}
+}
+
+function doWhatsApp(id){
+  const it=items.find(i=>i.id===id);if(!it)return;
+  const text=it.processed||it.text;
+  const num=(cfg.wa||'').replace(/[^0-9]/g,'');
+  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(text));
+  it.status='sent';save();render();toast('📱 Abriendo WhatsApp')
+}
+
+// ── GPT Call ──
+async function callGPT(prompt){
+  if(!cfg.ak){toast('⚠ Configura API key en ⚙');openCfg();return null}
+  isPr=true;$('mic').classList.add('pr');$('mic').textContent='⏳';$('vL').textContent='procesando...';
+
+  try{
+    const key=xD(cfg.ak,pin);
+    if(!key||key.length<10)throw new Error('API key inválida');
+    const r=await fetch('https://api.openai.com/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model:'gpt-4o-mini',messages:[
+        {role:'system',content:`Eres MOU, asistente ejecutivo. Responde SOLO en castellano. Sé conciso y profesional. Contexto: ${cfg.nm||'Usuario'}, ${cfg.cx||'profesional'}.`},
+        {role:'user',content:prompt}
+      ],max_tokens:800,temperature:0.7})
+    });
+    if(!r.ok){const e=await r.text();throw new Error('Error '+r.status+': '+e.substring(0,100))}
+    const d=await r.json();
+    return d.choices?.[0]?.message?.content||null;
+  }catch(err){
+    console.error(err);toast('⚠ '+err.message);return null;
+  }finally{
+    isPr=false;$('mic').classList.remove('pr');$('mic').textContent='🎤';
+    $('vL').textContent='micrófono';$('vT').textContent='Pulsa para hablar';$('vT').classList.add('dm')
+  }
+}
+
+// ── Render ──
+function render(){
+  const f=$('feed'),e=$('emp');
+  if(!items.length){f.innerHTML='';f.appendChild(e);e.style.display='flex';return}
+  e.style.display='none';
+
+  f.innerHTML=items.map(it=>{
+    const tags={raw:'raw',saved:'saved',summary:'summary',post:'post',sent:'sent'};
+    const labels={raw:'📝 Nueva',saved:'💾 Guardada',summary:'📋 Resumen',post:'✏️ Post',sent:'📱 Enviada'};
+
+    // Show processed content or raw text
+    const display=it.processed
+      ? esc(it.processed).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+      : esc(it.text);
+
+    // Action buttons based on status
+    let acts='';
+    if(it.status==='raw'){
+      acts=`
+        <button class="cb green" onclick="doSave(${it.id})">💾 Guardar</button>
+        <button class="cb purple" onclick="doSummary(${it.id})">📋 Resumir</button>
+        <button class="cb orange" onclick="doPost(${it.id})">✏️ Post</button>
+        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 WhatsApp</button>`;
+    } else if(it.status==='summary'||it.status==='post'){
+      acts=`
+        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 Enviar WhatsApp</button>
+        <button class="cb" onclick="cpIt(${it.id})">📋 Copiar</button>`;
+    } else if(it.status==='saved'){
+      acts=`
+        <button class="cb purple" onclick="doSummary(${it.id})">📋 Resumir</button>
+        <button class="cb orange" onclick="doPost(${it.id})">✏️ Post</button>
+        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 WhatsApp</button>
+        <button class="cb" onclick="cpIt(${it.id})">📋 Copiar</button>`;
+    } else {
+      acts=`<button class="cb" onclick="cpIt(${it.id})">📋 Copiar</button>
+        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 Reenviar</button>`;
+    }
+
+    return `<div class="cd${it.status==='raw'?' pending':''}">
+      <div class="cd-top">
+        <span class="cd-tag ${tags[it.status]||'raw'}">${labels[it.status]||'Nueva'}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="cd-time">${ago(it.ts)}</span>
+          <button class="cd-del" onclick="delIt(${it.id})">✕</button>
+        </div>
+      </div>
+      ${it.processed?'<div style="font-size:10px;color:var(--tx3);margin-bottom:4px;font-style:italic">Original: "'+esc(it.text).substring(0,80)+'..."</div>':''}
+      <div class="cd-body">${display}</div>
+      <div class="cd-acts">${acts}</div>
+    </div>`;
+  }).join('')
+}
+
+function cpIt(id){const it=items.find(i=>i.id===id);if(!it)return;navigator.clipboard.writeText(it.processed||it.text);toast('📋 Copiado')}
+
+// ── PWA ──
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(e=>console.log(e));
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installBtn').style.display='block'});
+window.addEventListener('appinstalled',()=>{$('installBtn').style.display='none';deferredPrompt=null;toast('✅ MOU instalado')});
+function doInstall(){if(!deferredPrompt){toast('Menú ⋮ → Añadir a pantalla de inicio');return}deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{deferredPrompt=null;$('installBtn').style.display='none'})}
+</script>
+</body>
+</html>
