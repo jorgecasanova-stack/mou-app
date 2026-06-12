@@ -14,13 +14,12 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root{--bg:#0b0b10;--s1:#111118;--s2:#17171f;--s3:#1e1e2a;--brd:#252535;--tx:#e6e6f0;--tx2:#8e8ea8;--tx3:#5a5a72;
---ac:#00dfa8;--ac2:rgba(0,223,168,.1);--vl:#7c6cff;--vl2:rgba(124,108,255,.12);--rd:#ff5c75;--rd2:rgba(255,92,117,.12);
---am:#f0a030;--am2:rgba(240,160,48,.12);--bl:#4da3ff;--bl2:rgba(77,163,255,.12);--pk:#ff7ab8;--pk2:rgba(255,122,184,.12)}
+--ac:#00dfa8;--ac2:rgba(0,223,168,.1);--vl:#7c6cff;--rd:#ff5c75;--rd2:rgba(255,92,117,.12);
+--am:#f0a030;--am2:rgba(240,160,48,.12)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overscroll-behavior:none}
 .app{max-width:440px;margin:0 auto;height:100%;display:flex;flex-direction:column}
-.mono{font-family:'IBM Plex Mono',monospace}
 
 .hd{padding:max(env(safe-area-inset-top),10px) 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd);flex-shrink:0}
 .hd-l{display:flex;align-items:center;gap:9px}
@@ -40,7 +39,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
 .fd::after{content:'';display:block;min-height:110px}
 
 /* Due strip */
-.due{margin-bottom:6px}
 .due-h{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--am);margin:8px 0 8px;display:flex;align-items:center;gap:6px}
 .dc{background:var(--s1);border:1px solid var(--brd);border-left:3px solid var(--am);border-radius:12px;padding:10px 12px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px}
 .dc.red{border-left-color:var(--rd)}
@@ -49,21 +47,41 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
 .dc-d{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;white-space:nowrap;text-align:right}
 .dc-d.amber{color:var(--am)}.dc-d.red{color:var(--rd)}
 
-/* Sections */
-.sec-h{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin:16px 0 8px;display:flex;align-items:center;gap:7px}
-.sec-h .dot{width:7px;height:7px;border-radius:50%}
-.it{background:var(--s1);border:1px solid var(--brd);border-radius:14px;padding:11px 13px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;animation:ci .2s ease-out}
+/* Folder grid */
+.sec-h{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin:14px 0 9px;display:flex;align-items:center;gap:7px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.fc{background:var(--s1);border:1px solid var(--brd);border-radius:16px;padding:14px 13px;cursor:pointer;animation:ci .2s ease-out;position:relative;overflow:hidden}
 @keyframes ci{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fc:active{transform:scale(.97)}
+.fc-i{font-size:24px;margin-bottom:8px}
+.fc-n{font-size:13.5px;font-weight:700}
+.fc-c{font-size:10px;color:var(--tx3);margin-top:3px;font-family:'IBM Plex Mono',monospace}
+.fc-warn{position:absolute;top:10px;right:10px;font-size:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;padding:3px 7px;border-radius:6px;background:var(--am2);color:var(--am)}
+.fc-warn.red{background:var(--rd2);color:var(--rd)}
+.fc-bar{position:absolute;left:0;top:0;bottom:0;width:3px}
+.fc.new{border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:92px;color:var(--tx3)}
+.fc.new .fc-i{margin:0 0 4px;opacity:.5}
+.fc.new .fc-n{font-size:11px;font-weight:600;color:var(--tx3)}
+
+/* Folder view header */
+.fol-hd{display:flex;align-items:center;gap:10px;margin:10px 0 4px}
+.fol-bk{background:var(--s2);border:1px solid var(--brd);border-radius:10px;color:var(--tx2);font-size:15px;cursor:pointer;width:36px;height:36px;flex-shrink:0}
+.fol-t{font-size:17px;font-weight:800;flex:1;display:flex;align-items:center;gap:8px;min-width:0}
+.fol-ed{background:none;border:none;color:var(--tx3);font-size:14px;cursor:pointer;padding:6px}
+
+/* Item row */
+.it{background:var(--s1);border:1px solid var(--brd);border-radius:14px;padding:11px 13px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;animation:ci .2s ease-out}
 .it:active{transform:scale(.985)}
 .it-n{font-size:13.5px;font-weight:600}
-.it-s{font-size:10.5px;color:var(--tx3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.it-s{font-size:10.5px;color:var(--tx3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+.it-f{display:inline-block;font-size:9px;margin-right:5px}
 .bdg{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:4px 8px;border-radius:7px;white-space:nowrap}
 .bdg.ok{background:var(--s3);color:var(--tx2)}
 .bdg.amber{background:var(--am2);color:var(--am)}
 .bdg.red{background:var(--rd2);color:var(--rd)}
 
 /* Empty */
-.ey{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 20px;gap:12px}
+.ey{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:50px 20px;gap:12px}
 .ey-g{font-size:38px;opacity:.25}
 .ey-t{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tx3)}
 .ey-s{font-size:11px;color:var(--tx3);opacity:.5;max-width:260px;line-height:1.7}
@@ -88,9 +106,13 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
 .fl textarea{resize:none;min-height:60px}
 .hn{font-size:9px;color:var(--tx3);opacity:.5;margin-top:3px;line-height:1.5}
 
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
 .chip{padding:7px 11px;border-radius:10px;border:1px solid var(--brd);background:var(--s2);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer}
 .chip.sel{border-color:var(--ac);color:var(--ac);background:var(--ac2)}
+.chip.dash{border-style:dashed;color:var(--tx3)}
+.emos{display:flex;flex-wrap:wrap;gap:6px}
+.emo{width:38px;height:38px;border-radius:10px;border:1px solid var(--brd);background:var(--s2);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.emo.sel{border-color:var(--ac);background:var(--ac2)}
 
 .fr{display:flex;gap:6px;margin-bottom:7px;align-items:center}
 .fr input.fr-l{flex:0 0 32%;padding:9px 10px;font-size:11px;background:var(--bg);border:1px solid var(--brd);border-radius:9px;color:var(--tx2);outline:none}
@@ -108,7 +130,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
 .sv.ghost{background:var(--s3);color:var(--tx)}
 
 /* Detail */
-.dt-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;margin-bottom:10px}
+.dt-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;margin-bottom:10px;background:var(--s3);color:var(--tx2)}
 .dt-f{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:11px;margin-bottom:7px}
 .dt-f-l{flex:1;min-width:0}
 .dt-f-k{font-size:9px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--tx3)}
@@ -163,17 +185,18 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
       <button class="ib" onclick="openCfg()">⚙</button>
     </div>
   </header>
-  <div class="srch"><input type="search" id="q" placeholder="Buscar: seguro, póliza, Iberia, DNI..." oninput="render()"/></div>
+  <div class="srch"><input type="search" id="q" placeholder="Buscar en todo: póliza, Iberia, DNI..." oninput="render()"/></div>
   <div class="fd" id="feed"></div>
   <button class="fab" onclick="openForm()">+</button>
 </div>
 
-<!-- FORM -->
+<!-- FORM ITEM -->
 <div class="ov" id="formO">
   <div class="md">
     <div class="md-b"></div>
     <h2 id="formT">Nuevo registro</h2>
-    <div class="chips" id="catChips"></div>
+    <div class="fl"><label>Carpeta</label><div class="chips" id="folChips"></div></div>
+    <div class="fl" id="tipoWrap"><label>Tipo (rellena los campos típicos)</label><select id="fTipo" onchange="applyTipo()"></select></div>
     <div class="fl"><label>Nombre</label><input type="text" id="fNm" placeholder="ej: Seguro coche — Mapfre"/></div>
     <div class="fl"><label>Datos</label><div id="frs"></div>
       <button class="addf" onclick="addFieldRow()">+ añadir campo</button>
@@ -188,6 +211,18 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
     </div>
     <div class="fl"><label>Notas</label><textarea id="fNo" placeholder="ej: llamar antes de renovar para negociar precio"></textarea></div>
     <button class="sv" onclick="submitForm()">GUARDAR</button>
+  </div>
+</div>
+
+<!-- FORM FOLDER -->
+<div class="ov" id="folO">
+  <div class="md">
+    <div class="md-b"></div>
+    <h2 id="folT">Nueva carpeta</h2>
+    <div class="fl"><label>Nombre</label><input type="text" id="foNm" placeholder="ej: Casa, Coche y moto, Personal..."/></div>
+    <div class="fl"><label>Icono</label><div class="emos" id="foEmos"></div></div>
+    <button class="sv" onclick="saveFolder()">GUARDAR</button>
+    <button class="sv danger" id="foDel" style="display:none" onclick="deleteFolder()">🗑 Borrar carpeta</button>
   </div>
 </div>
 
@@ -226,27 +261,22 @@ const MESES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','
 function fmtDate(iso){if(!iso)return'';const d=new Date(iso+'T00:00:00');return d.getDate()+' '+MESES[d.getMonth()]+' '+d.getFullYear()}
 function daysUntil(iso){const d=new Date(iso+'T00:00:00');const t=new Date();t.setHours(0,0,0,0);return Math.round((d-t)/864e5)}
 
-const CATS={
-  seguro:{n:'Seguros',i:'🛡️',c:'var(--ac)',bg:'var(--ac2)'},
-  suministro:{n:'Suministros',i:'💡',c:'var(--am)',bg:'var(--am2)'},
-  cuota:{n:'Cuotas y clubes',i:'🎫',c:'var(--vl)',bg:'var(--vl2)'},
-  documento:{n:'Documentos',i:'🪪',c:'var(--bl)',bg:'var(--bl2)'},
-  tarjeta:{n:'Tarjetas y puntos',i:'✈️',c:'var(--pk)',bg:'var(--pk2)'},
-  otro:{n:'Otros',i:'📦',c:'var(--tx2)',bg:'var(--s3)'}
+const TIPOS={
+  libre:{n:'— Libre —',f:[['Dato',0]]},
+  seguro:{n:'🛡️ Seguro',f:[['Aseguradora',0],['Nº póliza',0],['Teléfono',0],['Prima anual (€)',0]]},
+  suministro:{n:'💡 Suministro (luz, agua...)',f:[['Compañía',0],['Nº contrato',0],['Teléfono',0],['Importe mensual (€)',0]]},
+  cuota:{n:'🎫 Cuota / club / suscripción',f:[['Entidad',0],['Nº socio',0],['Cuota anual (€)',0],['Teléfono',0]]},
+  documento:{n:'🪪 Documento (DNI, pasaporte...)',f:[['Número',1],['Titular',0]]},
+  tarjeta:{n:'✈️ Tarjeta / puntos',f:[['Programa',0],['Nº tarjeta',1],['Nivel / categoría',0]]},
+  banco:{n:'🏦 Banco / cuenta',f:[['Entidad',0],['IBAN / Nº cuenta',1],['Teléfono',0]]}
 };
-const TPL={
-  seguro:[['Aseguradora',0],['Nº póliza',0],['Teléfono',0],['Prima anual (€)',0]],
-  suministro:[['Compañía',0],['Nº contrato',0],['Teléfono',0],['Importe mensual (€)',0]],
-  cuota:[['Entidad',0],['Nº socio',0],['Cuota anual (€)',0],['Teléfono',0]],
-  documento:[['Número',1],['Titular',0]],
-  tarjeta:[['Programa',0],['Nº tarjeta',1],['Nivel / categoría',0]],
-  otro:[['Dato',0]]
-};
+const FCOLORS=['#00dfa8','#f0a030','#7c6cff','#4da3ff','#ff7ab8','#ffd166','#5ce1e6','#a8e05c'];
+const EMOJIS=['🏠','🚗','👤','👨‍👩‍👦','✈️','💼','🏥','💳','🏦','⚽','🐶','🎓','💡','🛡️','🎫','🪪','📦','⭐'];
 
 // ── State ──
-let vault=null;   // {items:[{id,cat,name,fields:[{k,v,s}],date,remind,notes,ts}]}
-let vaultKey=null, vaultSalt=null;
-let editId=null, formCat='seguro';
+// vault = {folders:[{id,name,icon,color}], items:[{id,fol,name,fields:[{k,v,s}],date,remind,notes,ts}]}
+let vault=null, vaultKey=null, vaultSalt=null;
+let curFol=null, editId=null, formFol=null, editFolId=null, foEmoSel='🏠';
 const STORE='mouv';
 
 // ── Crypto (AES-GCM, clave derivada del PIN con PBKDF2) ──
@@ -257,7 +287,7 @@ async function deriveKey(pin,salt){
 async function encVault(){
   const iv=crypto.getRandomValues(new Uint8Array(12));
   const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},vaultKey,new TextEncoder().encode(JSON.stringify(vault)));
-  localStorage.setItem(STORE,JSON.stringify({v:1,salt:b64e(vaultSalt),iv:b64e(iv),ct:b64e(ct)}));
+  localStorage.setItem(STORE,JSON.stringify({v:2,salt:b64e(vaultSalt),iv:b64e(iv),ct:b64e(ct)}));
 }
 async function decVault(pin,blob){
   const salt=b64d(blob.salt);
@@ -266,6 +296,33 @@ async function decVault(pin,blob){
   return {key,salt,data:JSON.parse(new TextDecoder().decode(pt))};
 }
 async function save(){try{await encVault()}catch(e){toast('⚠ Error guardando');console.error(e)}}
+
+function newFolId(){return 'f'+Date.now()+Math.floor(Math.random()*1000)}
+function folColor(){return FCOLORS[(vault.folders.length)%FCOLORS.length]}
+function defaultFolders(){
+  return [
+    {id:newFolId()+'a',name:'Casa',icon:'🏠',color:FCOLORS[0]},
+    {id:newFolId()+'b',name:'Coche y moto',icon:'🚗',color:FCOLORS[1]},
+    {id:newFolId()+'c',name:'Personal',icon:'👤',color:FCOLORS[2]}
+  ];
+}
+// Migración del formato v1 (categorías fijas) a carpetas
+function migrate(){
+  if(vault.folders)return false;
+  vault.folders=defaultFolders();
+  const OLD={seguro:['Seguros','🛡️'],suministro:['Suministros','💡'],cuota:['Cuotas y clubes','🎫'],documento:['Documentos','🪪'],tarjeta:['Tarjetas y puntos','✈️'],otro:['Otros','📦']};
+  const map={};
+  for(const it of (vault.items||[])){
+    const c=it.cat||'otro';
+    if(!map[c]){
+      const[n,i]=OLD[c]||OLD.otro;
+      const f={id:newFolId()+c,name:n,icon:i,color:folColor()};
+      vault.folders.push(f);map[c]=f.id;
+    }
+    it.fol=map[c];delete it.cat;
+  }
+  return true;
+}
 
 // ── Lock / boot ──
 const isNew=!localStorage.getItem(STORE);
@@ -282,7 +339,7 @@ async function tryUnlock(){
     if(v!==$('pinIn2').value.trim()){$('lockErr').textContent='Los PIN no coinciden';$('lockErr').style.display='block';return}
     vaultSalt=crypto.getRandomValues(new Uint8Array(16));
     vaultKey=await deriveKey(v,vaultSalt);
-    vault={items:[]};
+    vault={folders:defaultFolders(),items:[]};
     await encVault();
     unlock();
   }else{
@@ -290,14 +347,15 @@ async function tryUnlock(){
       const blob=JSON.parse(localStorage.getItem(STORE));
       const r=await decVault(v,blob);
       vaultKey=r.key;vaultSalt=r.salt;vault=r.data;
+      if(migrate())await save();
       unlock();
     }catch(e){$('lockErr').textContent='PIN incorrecto';$('lockErr').style.display='block';$('pinIn').value=''}
   }
 }
-function unlock(){$('lock').classList.add('off');$('app').style.display='flex';render()}
-function lockApp(){vaultKey=null;vault=null;$('lock').classList.remove('off');$('app').style.display='none';$('pinIn').value='';$('pinIn2').value='';$('lockErr').style.display='none';closeAll()}
+function unlock(){$('lock').classList.add('off');$('app').style.display='flex';curFol=null;render()}
+function lockApp(){vaultKey=null;vault=null;curFol=null;$('lock').classList.remove('off');$('app').style.display='none';$('pinIn').value='';$('pinIn2').value='';$('lockErr').style.display='none';closeAll()}
 $('pinIn').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
-$('pinIn2')&&$('pinIn2').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
+$('pinIn2').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
 
 // Auto-lock tras 5 min en segundo plano
 let hiddenAt=0;
@@ -306,7 +364,8 @@ document.addEventListener('visibilitychange',()=>{
   else if(vaultKey&&hiddenAt&&Date.now()-hiddenAt>5*60*1000)lockApp();
 });
 
-// ── Render ──
+// ── Helpers de datos ──
+function folById(id){return vault.folders.find(f=>f.id===id)}
 function dueInfo(it){
   if(!it.date)return null;
   const d=daysUntil(it.date);
@@ -316,6 +375,7 @@ function dueInfo(it){
   if(it.remind&&d<=it.remind)return{d,txt:'vence en '+d+'d',cls:'amber'};
   return{d,txt:fmtDate(it.date),cls:'ok'};
 }
+function isDue(it){const i=dueInfo(it);return i&&(i.d<0||i.d<=15||(it.remind&&i.d<=it.remind))}
 function subtitle(it){
   const f=(it.fields||[]).find(f=>!f.s&&f.v);
   return f?f.v:(it.notes||'').split('\n')[0];
@@ -324,46 +384,127 @@ function matches(it,q){
   if(!q)return true;q=q.toLowerCase();
   if(it.name.toLowerCase().includes(q))return true;
   if((it.notes||'').toLowerCase().includes(q))return true;
-  if(CATS[it.cat]&&CATS[it.cat].n.toLowerCase().includes(q))return true;
+  const f=folById(it.fol);
+  if(f&&f.name.toLowerCase().includes(q))return true;
   return (it.fields||[]).some(f=>(f.k+' '+f.v).toLowerCase().includes(q));
 }
+function itemRow(it,showFol){
+  const inf=dueInfo(it);
+  const f=showFol?folById(it.fol):null;
+  return `<div class="it" onclick="openDetail(${it.id})">
+    <div style="min-width:0"><div class="it-n">${esc(it.name)}</div>
+    <div class="it-s">${f?`<span class="it-f">${f.icon} ${esc(f.name)} ·</span>`:''}${esc(subtitle(it))}</div></div>
+    ${inf?`<span class="bdg ${inf.cls}">${inf.txt}</span>`:''}
+  </div>`;
+}
+function dueStrip(items){
+  const due=items.map(it=>({it,inf:dueInfo(it)})).filter(x=>x.inf&&isDue(x.it)).sort((a,b)=>a.inf.d-b.inf.d);
+  if(!due.length)return'';
+  return `<div class="due-h">⚠ Vencimientos próximos</div>`+
+    due.map(({it,inf})=>{const f=folById(it.fol);return `<div class="dc${inf.cls==='red'?' red':''}" onclick="openDetail(${it.id})">
+      <div><div class="dc-n">${esc(it.name)}</div><div class="dc-s">${f?f.icon+' '+esc(f.name):''}</div></div>
+      <div class="dc-d ${inf.cls}">${inf.txt}<br><span style="opacity:.6;font-weight:400">${fmtDate(it.date)}</span></div>
+    </div>`}).join('');
+}
+
+// ── Render ──
 function render(){
-  const f=$('feed'),q=$('q').value.trim();
   if(!vault)return;
-  const items=vault.items.filter(it=>matches(it,q));
-  if(!vault.items.length){
-    f.innerHTML=`<div class="ey"><div class="ey-g">🗂️</div><div class="ey-t">Tu archivo está vacío</div>
-    <div class="ey-s">Pulsa <b>+</b> y guarda tus seguros, suministros, cuotas, documentos y tarjetas. Todo cifrado, todo en tu móvil, siempre a mano.</div></div>`;
+  const fd=$('feed'),q=$('q').value.trim();
+
+  // Búsqueda global → lista plana
+  if(q){
+    const res=vault.items.filter(it=>matches(it,q));
+    fd.innerHTML=res.length?res.map(it=>itemRow(it,true)).join('')
+      :`<div class="ey"><div class="ey-g">🔍</div><div class="ey-t">Sin resultados</div></div>`;
     return;
   }
-  if(!items.length){f.innerHTML=`<div class="ey"><div class="ey-g">🔍</div><div class="ey-t">Sin resultados</div></div>`;return}
 
-  let html='';
-  // Vencimientos
-  const due=items.map(it=>({it,inf:dueInfo(it)}))
-    .filter(x=>x.inf&&(x.inf.d<0||x.inf.d<=(x.it.remind||0)||x.inf.d<=15))
-    .sort((a,b)=>a.inf.d-b.inf.d);
-  if(due.length&&!q){
-    html+=`<div class="due"><div class="due-h">⚠ Vencimientos próximos</div>`+
-    due.map(({it,inf})=>`<div class="dc${inf.cls==='red'?' red':''}" onclick="openDetail(${it.id})">
-      <div><div class="dc-n">${esc(it.name)}</div><div class="dc-s">${esc(subtitle(it))}</div></div>
-      <div class="dc-d ${inf.cls}">${inf.txt}<br><span style="opacity:.6;font-weight:400">${fmtDate(it.date)}</span></div>
-    </div>`).join('')+`</div>`;
+  // Vista carpeta
+  if(curFol){
+    const f=folById(curFol);
+    if(!f){curFol=null;render();return}
+    const its=vault.items.filter(i=>i.fol===curFol);
+    let html=`<div class="fol-hd">
+      <button class="fol-bk" onclick="goHome()">←</button>
+      <div class="fol-t">${f.icon} ${esc(f.name)}</div>
+      <button class="fol-ed" onclick="openFolModal('${f.id}')">✏️</button>
+    </div>`;
+    html+=dueStrip(its);
+    if(its.length)html+=`<div class="sec-h">${its.length} registro${its.length===1?'':'s'}</div>`+its.map(it=>itemRow(it,false)).join('');
+    else html+=`<div class="ey"><div class="ey-g">${f.icon}</div><div class="ey-t">Carpeta vacía</div><div class="ey-s">Pulsa + para guardar aquí un seguro, contrato, documento...</div></div>`;
+    fd.innerHTML=html;
+    return;
   }
-  // Secciones por categoría
-  for(const[ck,c]of Object.entries(CATS)){
-    const its=items.filter(i=>i.cat===ck);
-    if(!its.length)continue;
-    html+=`<div class="sec-h"><span class="dot" style="background:${c.c}"></span>${c.i} ${c.n} · ${its.length}</div>`;
-    html+=its.map(it=>{
-      const inf=dueInfo(it);
-      return `<div class="it" onclick="openDetail(${it.id})">
-        <div style="min-width:0"><div class="it-n">${esc(it.name)}</div><div class="it-s">${esc(subtitle(it))}</div></div>
-        ${inf?`<span class="bdg ${inf.cls}">${inf.cls==='ok'?inf.txt:inf.txt}</span>`:''}
-      </div>`;
-    }).join('');
+
+  // Portada: vencimientos globales + carpetas
+  let html=dueStrip(vault.items);
+  html+=`<div class="sec-h">📁 Carpetas</div><div class="fgrid">`;
+  html+=vault.folders.map(f=>{
+    const its=vault.items.filter(i=>i.fol===f.id);
+    const nd=its.filter(isDue);
+    const worst=nd.length?Math.min(...nd.map(i=>dueInfo(i).d)):null;
+    return `<div class="fc" onclick="openFol('${f.id}')">
+      <div class="fc-bar" style="background:${f.color}"></div>
+      <div class="fc-i">${f.icon}</div>
+      <div class="fc-n">${esc(f.name)}</div>
+      <div class="fc-c">${its.length} registro${its.length===1?'':'s'}</div>
+      ${nd.length?`<div class="fc-warn${worst<=15?' red':''}">⚠ ${nd.length}</div>`:''}
+    </div>`;
+  }).join('');
+  html+=`<div class="fc new" onclick="openFolModal()"><div class="fc-i">＋</div><div class="fc-n">Nueva carpeta</div></div></div>`;
+  if(!vault.items.length&&vault.folders.length<=3){
+    html+=`<div class="ey" style="padding:30px 20px"><div class="ey-s">Guarda tus seguros, suministros, cuotas, documentos y tarjetas en carpetas. Todo cifrado, todo en tu móvil, siempre a mano.</div></div>`;
   }
-  f.innerHTML=html;
+  fd.innerHTML=html;
+}
+function openFol(id){curFol=id;$('q').value='';render();$('feed').scrollTop=0}
+function goHome(){curFol=null;render()}
+
+// ── Carpetas: crear / editar / borrar ──
+function renderEmos(){
+  $('foEmos').innerHTML=EMOJIS.map(e=>`<button type="button" class="emo${e===foEmoSel?' sel':''}" onclick="pickEmo('${e}')">${e}</button>`).join('');
+}
+function pickEmo(e){foEmoSel=e;renderEmos()}
+function openFolModal(id){
+  closeAll();
+  editFolId=id||null;
+  if(editFolId){
+    const f=folById(editFolId);if(!f)return;
+    $('folT').textContent='Editar carpeta';$('foNm').value=f.name;foEmoSel=f.icon;
+    $('foDel').style.display='block';
+  }else{
+    $('folT').textContent='Nueva carpeta';$('foNm').value='';foEmoSel='🏠';
+    $('foDel').style.display='none';
+  }
+  renderEmos();
+  $('folO').classList.add('op');
+}
+function saveFolder(){
+  const name=$('foNm').value.trim();
+  if(!name){toast('⚠ Ponle un nombre');return}
+  if(editFolId){
+    const f=folById(editFolId);Object.assign(f,{name,icon:foEmoSel});
+  }else{
+    const f={id:newFolId(),name,icon:foEmoSel,color:folColor()};
+    vault.folders.push(f);
+    // si veníamos del formulario de registro, seleccionarla allí
+    if($('formO').dataset.waiting==='1'){formFol=f.id}
+  }
+  save();
+  $('folO').classList.remove('op');
+  if($('formO').dataset.waiting==='1'){$('formO').dataset.waiting='';renderFolChips();$('formO').classList.add('op')}
+  else render();
+  toast('✓ Carpeta guardada');
+}
+function deleteFolder(){
+  const f=folById(editFolId);if(!f)return;
+  const n=vault.items.filter(i=>i.fol===editFolId).length;
+  if(n){toast('⚠ Tiene '+n+' registros: muévelos o bórralos antes');return}
+  if(!confirm('¿Borrar la carpeta "'+f.name+'"?'))return;
+  vault.folders=vault.folders.filter(x=>x.id!==editFolId);
+  if(curFol===editFolId)curFol=null;
+  save();$('folO').classList.remove('op');render();toast('🗑 Carpeta borrada');
 }
 
 // ── Detail ──
@@ -375,16 +516,16 @@ function openDetail(id){
   $('dtO').classList.add('op');
 }
 function renderDetail(it){
-  const c=CATS[it.cat]||CATS.otro;
+  const f=folById(it.fol);
   const inf=dueInfo(it);
   $('dtMd').innerHTML=`<div class="md-b"></div>
-  <div class="dt-tag" style="background:${c.bg};color:${c.c}">${c.i} ${c.n}</div>
+  <div class="dt-tag">${f?f.icon+' '+esc(f.name):'📦'}</div>
   <h2 style="margin-bottom:12px">${esc(it.name)}</h2>
-  ${(it.fields||[]).filter(f=>f.v).map((f,ix)=>`
+  ${(it.fields||[]).filter(x=>x.v).map((x,ix)=>`
     <div class="dt-f">
-      <div class="dt-f-l"><div class="dt-f-k">${esc(f.k)}</div>
-      <div class="dt-f-v${f.s&&!revealed[ix]?' masked':''}">${f.s&&!revealed[ix]?'••••••••':esc(f.v)}</div></div>
-      ${f.s?`<button onclick="toggleReveal(${it.id},${ix})">${revealed[ix]?'🙈':'👁'}</button>`:''}
+      <div class="dt-f-l"><div class="dt-f-k">${esc(x.k)}</div>
+      <div class="dt-f-v${x.s&&!revealed[ix]?' masked':''}">${x.s&&!revealed[ix]?'••••••••':esc(x.v)}</div></div>
+      ${x.s?`<button onclick="toggleReveal(${it.id},${ix})">${revealed[ix]?'🙈':'👁'}</button>`:''}
       <button onclick="copyVal(${it.id},${ix})">📋</button>
     </div>`).join('')}
   ${it.date?`<div class="dt-date ${inf.cls}">📅 ${inf.cls==='ok'?'Vence: '+fmtDate(it.date):inf.txt+' — '+fmtDate(it.date)}${it.remind?`<span style="margin-left:auto;font-size:10px;opacity:.7">aviso ${it.remind}d antes</span>`:''}</div>`:''}
@@ -397,7 +538,7 @@ function renderDetail(it){
 function toggleReveal(id,ix){revealed[ix]=!revealed[ix];const it=vault.items.find(i=>i.id===id);if(it)renderDetail(it)}
 function copyVal(id,ix){
   const it=vault.items.find(i=>i.id===id);if(!it)return;
-  const f=(it.fields||[]).filter(f=>f.v)[ix];if(!f)return;
+  const f=(it.fields||[]).filter(x=>x.v)[ix];if(!f)return;
   navigator.clipboard.writeText(f.v).then(()=>toast('📋 '+f.k+' copiado')).catch(()=>toast('⚠ No se pudo copiar'));
 }
 function delItem(id){
@@ -405,53 +546,61 @@ function delItem(id){
   vault.items=vault.items.filter(i=>i.id!==id);save();closeAll();render();toast('🗑 Borrado');
 }
 
-// ── Form ──
-function renderChips(){
-  $('catChips').innerHTML=Object.entries(CATS).map(([k,c])=>
-    `<div class="chip${k===formCat?' sel':''}" onclick="pickCat('${k}')">${c.i} ${c.n}</div>`).join('');
+// ── Form registro ──
+function renderFolChips(){
+  $('folChips').innerHTML=vault.folders.map(f=>
+    `<div class="chip${f.id===formFol?' sel':''}" onclick="pickFol('${f.id}')">${f.icon} ${esc(f.name)}</div>`).join('')
+    +`<div class="chip dash" onclick="newFolFromForm()">＋ nueva</div>`;
 }
-function pickCat(k){
-  formCat=k;renderChips();
-  if(editId===null){
-    const rows=[...document.querySelectorAll('#frs .fr')];
-    const touched=rows.some(r=>r.querySelector('.fr-v').value.trim());
-    if(!touched){$('frs').innerHTML='';TPL[k].forEach(([l,s])=>addFieldRow(l,'',s))}
-  }
+function pickFol(id){formFol=id;renderFolChips()}
+function newFolFromForm(){$('formO').classList.remove('op');$('formO').dataset.waiting='1';openFolModal()}
+function applyTipo(){
+  const t=TIPOS[$('fTipo').value];if(!t)return;
+  const rows=[...document.querySelectorAll('#frs .fr')];
+  const touched=rows.some(r=>r.querySelector('.fr-v').value.trim());
+  if(touched&&rows.length)return;
+  $('frs').innerHTML='';t.f.forEach(([l,s])=>addFieldRow(l,'',s));
 }
 function addFieldRow(label,value,secret){
   const d=document.createElement('div');d.className='fr';
   d.innerHTML=`<input class="fr-l" placeholder="Campo" value="${esc(label||'')}">
   <input class="fr-v" placeholder="Valor" value="${esc(value||'')}">
-  <button type="button" class="frs-b${secret?' on':''}" onclick="this.classList.toggle('on')" title="sensible">${'🔒'}</button>
+  <button type="button" class="frs-b${secret?' on':''}" onclick="this.classList.toggle('on')" title="sensible">🔒</button>
   <button type="button" onclick="this.parentElement.remove()">✕</button>`;
   $('frs').appendChild(d);
 }
 function openForm(id){
   closeAll();
+  if(!vault.folders.length){toast('Crea primero una carpeta');openFolModal();return}
   editId=(typeof id==='number')?id:null;
   $('formT').textContent=editId!==null?'Editar registro':'Nuevo registro';
+  $('fTipo').innerHTML=Object.entries(TIPOS).map(([k,t])=>`<option value="${k}">${t.n}</option>`).join('');
   $('frs').innerHTML='';
   if(editId!==null){
     const it=vault.items.find(i=>i.id===editId);if(!it)return;
-    formCat=it.cat;$('fNm').value=it.name;$('fDt').value=it.date||'';$('fRm').value=String(it.remind||0);$('fNo').value=it.notes||'';
+    formFol=it.fol;$('fNm').value=it.name;$('fDt').value=it.date||'';$('fRm').value=String(it.remind||0);$('fNo').value=it.notes||'';
     (it.fields||[]).forEach(f=>addFieldRow(f.k,f.v,f.s));
     if(!(it.fields||[]).length)addFieldRow();
+    $('tipoWrap').style.display='none';
   }else{
-    formCat='seguro';$('fNm').value='';$('fDt').value='';$('fRm').value='60';$('fNo').value='';
-    TPL[formCat].forEach(([l,s])=>addFieldRow(l,'',s));
+    formFol=curFol||vault.folders[0].id;
+    $('fNm').value='';$('fDt').value='';$('fRm').value='60';$('fNo').value='';
+    $('tipoWrap').style.display='block';$('fTipo').value='libre';
+    TIPOS.libre.f.forEach(([l,s])=>addFieldRow(l,'',s));
   }
-  renderChips();
+  renderFolChips();
   $('formO').classList.add('op');
 }
 function submitForm(){
   const name=$('fNm').value.trim();
   if(!name){toast('⚠ Ponle un nombre');return}
+  if(!formFol||!folById(formFol)){toast('⚠ Elige una carpeta');return}
   const fields=[...document.querySelectorAll('#frs .fr')].map(r=>({
     k:r.querySelector('.fr-l').value.trim(),
     v:r.querySelector('.fr-v').value.trim(),
     s:r.querySelector('.frs-b').classList.contains('on')?1:0
   })).filter(f=>f.k||f.v);
-  const data={cat:formCat,name,fields,date:$('fDt').value||'',remind:parseInt($('fRm').value)||0,notes:$('fNo').value.trim()};
+  const data={fol:formFol,name,fields,date:$('fDt').value||'',remind:parseInt($('fRm').value)||0,notes:$('fNo').value.trim()};
   if(editId!==null){
     const it=vault.items.find(i=>i.id===editId);Object.assign(it,data);
   }else{
