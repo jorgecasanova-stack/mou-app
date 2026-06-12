@@ -1,7 +1,7 @@
 {
-  "name": "MOU — Asistente de Voz",
+  "name": "MOU — Tu archivo personal",
   "short_name": "MOU",
-  "description": "Asistente de voz personal",
+  "description": "Tus seguros, suministros, cuotas, documentos y tarjetas. Cifrado, en tu móvil.",
   "start_url": ".",
   "id": "/",
   "display": "standalone",

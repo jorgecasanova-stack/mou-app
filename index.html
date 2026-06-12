@@ -13,158 +13,204 @@
 <title>MOU</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-:root{--bg:#0b0b10;--s1:#111118;--s2:#17171f;--s3:#1e1e2a;--brd:#252535;--tx:#e6e6f0;--tx2:#8e8ea8;--tx3:#5a5a72;--ac:#00dfa8;--ac2:rgba(0,223,168,.1);--ac3:rgba(0,223,168,.2);--vl:#7c6cff;--vl2:rgba(124,108,255,.1);--rd:#ff5c75;--am:#f0a030;--am2:rgba(240,160,48,.1);--wa:#25d366;--wa2:rgba(37,211,102,.1)}
+:root{--bg:#0b0b10;--s1:#111118;--s2:#17171f;--s3:#1e1e2a;--brd:#252535;--tx:#e6e6f0;--tx2:#8e8ea8;--tx3:#5a5a72;
+--ac:#00dfa8;--ac2:rgba(0,223,168,.1);--vl:#7c6cff;--vl2:rgba(124,108,255,.12);--rd:#ff5c75;--rd2:rgba(255,92,117,.12);
+--am:#f0a030;--am2:rgba(240,160,48,.12);--bl:#4da3ff;--bl2:rgba(77,163,255,.12);--pk:#ff7ab8;--pk2:rgba(255,122,184,.12)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overscroll-behavior:none}
 .app{max-width:440px;margin:0 auto;height:100%;display:flex;flex-direction:column}
+.mono{font-family:'IBM Plex Mono',monospace}
 
 .hd{padding:max(env(safe-area-inset-top),10px) 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd);flex-shrink:0}
 .hd-l{display:flex;align-items:center;gap:9px}
 .mk{width:28px;height:28px;border-radius:8px;background:var(--ac);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11px;color:var(--bg)}
 .hd-n{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;letter-spacing:3px}
-.hd-r{display:flex;align-items:center;gap:6px}
+.hd-sub{font-size:8px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;display:block;margin-top:1px}
 .ib{background:none;border:none;color:var(--tx3);font-size:16px;cursor:pointer;padding:5px}
 .ibg{color:var(--ac);font-size:13px;font-weight:700;font-family:'IBM Plex Mono',monospace;display:none}
 
-.fd{flex:1;overflow-y:auto;padding:6px 16px 0;display:flex;flex-direction:column;gap:8px;-webkit-overflow-scrolling:touch}
+.srch{padding:10px 16px 4px;flex-shrink:0}
+.srch input{width:100%;padding:9px 14px;background:var(--s1);border:1px solid var(--brd);border-radius:12px;color:var(--tx);font-family:'Manrope',sans-serif;font-size:13px;outline:none}
+.srch input:focus{border-color:var(--ac)}
+.srch input::placeholder{color:var(--tx3);opacity:.5}
+
+.fd{flex:1;overflow-y:auto;padding:6px 16px 0;-webkit-overflow-scrolling:touch}
 .fd::-webkit-scrollbar{width:0}
-.fd::after{content:'';display:block;min-height:130px;flex-shrink:0}
+.fd::after{content:'';display:block;min-height:110px}
 
-/* Card */
-.cd{background:var(--s1);border:1px solid var(--brd);border-radius:16px;padding:12px 14px;animation:ci .25s ease-out}
-@keyframes ci{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.cd-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.cd-time{font-size:9px;color:var(--tx3);font-family:'IBM Plex Mono',monospace}
-.cd-del{background:none;border:none;color:var(--tx3);font-size:12px;cursor:pointer;opacity:.3}
-.cd-tag{display:inline-block;padding:3px 8px;border-radius:6px;font-size:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.cd-tag.raw{background:var(--s3);color:var(--tx3)}
-.cd-tag.saved{background:var(--ac2);color:var(--ac)}
-.cd-tag.summary{background:var(--vl2);color:var(--vl)}
-.cd-tag.post{background:var(--am2);color:var(--am)}
-.cd-tag.sent{background:var(--wa2);color:var(--wa)}
+/* Due strip */
+.due{margin-bottom:6px}
+.due-h{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--am);margin:8px 0 8px;display:flex;align-items:center;gap:6px}
+.dc{background:var(--s1);border:1px solid var(--brd);border-left:3px solid var(--am);border-radius:12px;padding:10px 12px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px}
+.dc.red{border-left-color:var(--rd)}
+.dc-n{font-size:13px;font-weight:600}
+.dc-s{font-size:10px;color:var(--tx3);margin-top:2px}
+.dc-d{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;white-space:nowrap;text-align:right}
+.dc-d.amber{color:var(--am)}.dc-d.red{color:var(--rd)}
 
-.cd-body{font-size:12.5px;line-height:1.65;white-space:pre-wrap;word-break:break-word;margin:8px 0}
-.cd-body strong{color:var(--ac);font-weight:600}
-.cd-body em{color:var(--tx2)}
-
-.cd-acts{display:flex;flex-wrap:wrap;gap:5px}
-.cb{padding:7px 12px;border-radius:9px;border:1px solid var(--brd);background:var(--s2);color:var(--tx);font-size:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.1s}
-.cb:active{transform:scale(.96)}
-.cb.green{border-color:var(--ac);color:var(--ac)}
-.cb.purple{border-color:var(--vl);color:var(--vl)}
-.cb.orange{border-color:var(--am);color:var(--am)}
-.cb.whatsapp{border-color:var(--wa);color:var(--wa)}
-
-/* Pending action card */
-.cd.pending{border-color:var(--ac3)}
+/* Sections */
+.sec-h{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin:16px 0 8px;display:flex;align-items:center;gap:7px}
+.sec-h .dot{width:7px;height:7px;border-radius:50%}
+.it{background:var(--s1);border:1px solid var(--brd);border-radius:14px;padding:11px 13px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:pointer;animation:ci .2s ease-out}
+@keyframes ci{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.it:active{transform:scale(.985)}
+.it-n{font-size:13.5px;font-weight:600}
+.it-s{font-size:10.5px;color:var(--tx3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.bdg{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:4px 8px;border-radius:7px;white-space:nowrap}
+.bdg.ok{background:var(--s3);color:var(--tx2)}
+.bdg.amber{background:var(--am2);color:var(--am)}
+.bdg.red{background:var(--rd2);color:var(--rd)}
 
 /* Empty */
-.ey{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;gap:12px}
-.ey-g{font-size:38px;opacity:.2}
+.ey{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 20px;gap:12px}
+.ey-g{font-size:38px;opacity:.25}
 .ey-t{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tx3)}
-.ey-s{font-size:11px;color:var(--tx3);opacity:.45;max-width:240px;line-height:1.6}
+.ey-s{font-size:11px;color:var(--tx3);opacity:.5;max-width:260px;line-height:1.7}
 
-/* Voice bar */
-.vb{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;padding:8px 16px calc(env(safe-area-inset-bottom,8px)+8px);background:linear-gradient(to top,var(--bg) 65%,transparent);z-index:100}
-.vb-in{display:flex;align-items:center;gap:9px;background:var(--s1);border:1px solid var(--brd);border-radius:20px;padding:6px}
-.mb{width:48px;height:48px;border-radius:50%;border:none;background:var(--s3);color:var(--tx);font-size:18px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
-.mb.on{background:var(--ac);color:var(--bg)}
-.mb.on::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ac);animation:rn 1.3s ease-out infinite}
-@keyframes rn{from{transform:scale(1);opacity:.5}to{transform:scale(1.4);opacity:0}}
-.mb.pr{background:var(--vl);color:#fff}
-.vs{flex:1;min-width:0}
-.vl{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--tx3)}
-.vt{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.vt.dm{color:var(--tx3);font-style:italic}
-.wv{display:flex;align-items:center;gap:2px;height:20px;margin-right:5px}
-.wv.off{display:none}
-.wv i{width:2.5px;background:var(--ac);border-radius:2px}
-.wv i:nth-child(1){height:6px;animation:w .45s ease-in-out infinite alternate}
-.wv i:nth-child(2){height:12px;animation:w .45s .07s ease-in-out infinite alternate}
-.wv i:nth-child(3){height:20px;animation:w .45s .14s ease-in-out infinite alternate}
-.wv i:nth-child(4){height:12px;animation:w .45s .21s ease-in-out infinite alternate}
-.wv i:nth-child(5){height:6px;animation:w .45s .28s ease-in-out infinite alternate}
-@keyframes w{from{transform:scaleY(.2)}to{transform:scaleY(1)}}
+/* FAB */
+.fab{position:fixed;bottom:calc(env(safe-area-inset-bottom,12px) + 14px);right:max(calc(50% - 204px),16px);width:54px;height:54px;border-radius:50%;border:none;background:var(--ac);color:var(--bg);font-size:26px;font-weight:300;cursor:pointer;z-index:90;box-shadow:0 6px 20px rgba(0,223,168,.3);display:flex;align-items:center;justify-content:center;line-height:1}
+.fab:active{transform:scale(.93)}
 
 /* Modal */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .ov.op{display:flex}
-.md{width:100%;max-width:440px;background:var(--s1);border-radius:20px 20px 0 0;border:1px solid var(--brd);border-bottom:none;padding:18px 16px calc(env(safe-area-inset-bottom,16px)+16px);animation:mu .2s ease-out;max-height:88dvh;overflow-y:auto}
+.md{width:100%;max-width:440px;background:var(--s1);border-radius:20px 20px 0 0;border:1px solid var(--brd);border-bottom:none;padding:16px 16px calc(env(safe-area-inset-bottom,16px)+16px);animation:mu .2s ease-out;max-height:90dvh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 @keyframes mu{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.md-b{width:28px;height:3px;background:#333;border-radius:2px;margin:0 auto 16px}
-.md h2{font-family:'IBM Plex Mono',monospace;font-size:14px;margin-bottom:14px}
-.fl{margin-bottom:12px}
+.md-b{width:28px;height:3px;background:#333;border-radius:2px;margin:0 auto 14px}
+.md h2{font-family:'IBM Plex Mono',monospace;font-size:14px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+.fl{margin-bottom:11px}
 .fl label{display:block;font-size:9px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--tx3);margin-bottom:4px}
-.fl .hn{font-size:9px;color:var(--tx3);opacity:.4;margin-top:2px}
-.fl input{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:10px;color:var(--tx);font-family:'Manrope',sans-serif;font-size:12px;outline:none}
-.fl input:focus{border-color:var(--ac)}
-.fl input::placeholder{color:var(--tx3);opacity:.35}
-.sec{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--tx3);margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--brd)}
-.sv{width:100%;padding:12px;border:none;border-radius:12px;background:var(--ac);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;cursor:pointer;margin-top:10px}
+.fl input,.fl select,.fl textarea{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:10px;color:var(--tx);font-family:'Manrope',sans-serif;font-size:13px;outline:none;-webkit-appearance:none}
+.fl input:focus,.fl textarea:focus{border-color:var(--ac)}
+.fl input::placeholder,.fl textarea::placeholder{color:var(--tx3);opacity:.4}
+.fl textarea{resize:none;min-height:60px}
+.hn{font-size:9px;color:var(--tx3);opacity:.5;margin-top:3px;line-height:1.5}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{padding:7px 11px;border-radius:10px;border:1px solid var(--brd);background:var(--s2);color:var(--tx2);font-size:11px;font-weight:600;cursor:pointer}
+.chip.sel{border-color:var(--ac);color:var(--ac);background:var(--ac2)}
+
+.fr{display:flex;gap:6px;margin-bottom:7px;align-items:center}
+.fr input.fr-l{flex:0 0 32%;padding:9px 10px;font-size:11px;background:var(--bg);border:1px solid var(--brd);border-radius:9px;color:var(--tx2);outline:none}
+.fr input.fr-v{flex:1;min-width:0;padding:9px 10px;font-size:12.5px;background:var(--bg);border:1px solid var(--brd);border-radius:9px;color:var(--tx);outline:none}
+.fr input:focus{border-color:var(--ac)}
+.fr button{background:none;border:none;font-size:13px;cursor:pointer;padding:4px;color:var(--tx3);flex-shrink:0}
+.fr button.on{color:var(--am)}
+.addf{background:none;border:1px dashed var(--brd);border-radius:9px;width:100%;padding:8px;color:var(--tx3);font-size:11px;cursor:pointer;margin:2px 0 10px}
+
+.row2{display:flex;gap:8px}
+.row2 .fl{flex:1}
+
+.sv{width:100%;padding:13px;border:none;border-radius:12px;background:var(--ac);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;cursor:pointer;margin-top:6px}
+.sv.danger{background:none;border:1px solid var(--rd);color:var(--rd);margin-top:8px}
+.sv.ghost{background:var(--s3);color:var(--tx)}
+
+/* Detail */
+.dt-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;margin-bottom:10px}
+.dt-f{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:11px;margin-bottom:7px}
+.dt-f-l{flex:1;min-width:0}
+.dt-f-k{font-size:9px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:1px;color:var(--tx3)}
+.dt-f-v{font-size:14px;font-weight:600;word-break:break-all;margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.dt-f-v.masked{letter-spacing:2px;color:var(--tx2)}
+.dt-f button{background:var(--s3);border:none;border-radius:8px;width:34px;height:34px;font-size:14px;cursor:pointer;color:var(--tx2);flex-shrink:0}
+.dt-date{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:11px;margin-bottom:7px;font-size:12px;font-weight:600}
+.dt-date.ok{background:var(--s2);color:var(--tx2)}
+.dt-date.amber{background:var(--am2);color:var(--am)}
+.dt-date.red{background:var(--rd2);color:var(--rd)}
+.dt-notes{font-size:12px;color:var(--tx2);line-height:1.6;padding:10px 12px;background:var(--bg);border-radius:11px;margin-bottom:7px;white-space:pre-wrap}
+.dt-acts{display:flex;gap:8px;margin-top:10px}
+.dt-acts button{flex:1;padding:11px;border-radius:11px;border:1px solid var(--brd);background:var(--s2);color:var(--tx);font-size:12px;font-weight:600;cursor:pointer}
+.dt-acts button.del{border-color:var(--rd);color:var(--rd);flex:0 0 auto;padding:11px 14px}
 
 /* Lock */
-.lock{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:20px}
+.lock{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:20px}
 .lock.off{display:none}
 .lock .mk{width:48px;height:48px;font-size:16px;border-radius:14px}
 .lock h1{font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:4px}
-.lock p{font-size:11px;color:var(--tx3);max-width:260px;text-align:center;line-height:1.5}
+.lock p{font-size:11px;color:var(--tx3);max-width:270px;text-align:center;line-height:1.6}
+.lock .fl{width:260px;margin-bottom:0}
+.lock input{text-align:center;font-size:18px;letter-spacing:8px}
+
+.sec-t{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--tx3);margin:16px 0 8px;padding-top:12px;border-top:1px solid var(--brd)}
 
 /* Toast */
-.tt{position:fixed;top:max(env(safe-area-inset-top),14px);left:50%;transform:translateX(-50%) translateY(-80px);background:var(--s2);border:1px solid var(--brd);border-radius:12px;padding:9px 16px;font-size:11px;z-index:300;transition:transform .25s ease;white-space:nowrap}
+.tt{position:fixed;top:max(env(safe-area-inset-top),14px);left:50%;transform:translateX(-50%) translateY(-80px);background:var(--s2);border:1px solid var(--brd);border-radius:12px;padding:9px 16px;font-size:11px;z-index:600;transition:transform .25s ease;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
 .tt.sh{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
+<!-- LOCK -->
 <div class="lock" id="lock">
   <div class="mk">M</div><h1>MOU</h1>
-  <p>Tu asistente de voz personal.<br>PIN para desbloquear.</p>
-  <div class="fl" style="width:260px"><input type="password" id="pinIn" placeholder="PIN 4+ dígitos" maxlength="8" inputmode="numeric" style="text-align:center;font-size:18px;letter-spacing:8px"/></div>
-  <button class="sv" style="width:260px" onclick="tryUnlock()">ENTRAR</button>
+  <p id="lockMsg">Tu archivo personal cifrado.</p>
+  <div class="fl"><input type="password" id="pinIn" placeholder="PIN" maxlength="8" inputmode="numeric" autocomplete="off"/></div>
+  <div class="fl" id="pin2Wrap" style="display:none"><input type="password" id="pinIn2" placeholder="Repite el PIN" maxlength="8" inputmode="numeric" autocomplete="off"/></div>
+  <button class="sv" style="width:260px" onclick="tryUnlock()" id="unlockBtn">ENTRAR</button>
   <p id="lockErr" style="font-size:10px;color:var(--rd);display:none">PIN incorrecto</p>
-  <p style="margin-top:8px;font-size:9px;opacity:.3">Primera vez? Pon un PIN y se guardará.</p>
+  <p id="lockHint" style="font-size:9px;opacity:.35;max-width:280px">Todo se guarda cifrado SOLO en este móvil. Sin tu PIN nadie puede leerlo — tampoco tú: no lo pierdas.</p>
 </div>
 
+<!-- APP -->
 <div class="app" id="app" style="display:none">
   <header class="hd">
-    <div class="hd-l"><div class="mk">M</div><span class="hd-n">MOU</span></div>
+    <div class="hd-l"><div class="mk">M</div><div><span class="hd-n">MOU</span><span class="hd-sub">tu archivo personal</span></div></div>
     <div class="hd-r">
       <button class="ib ibg" id="installBtn" onclick="doInstall()">⬇ INSTALAR</button>
       <button class="ib" onclick="lockApp()">🔒</button>
       <button class="ib" onclick="openCfg()">⚙</button>
     </div>
   </header>
+  <div class="srch"><input type="search" id="q" placeholder="Buscar: seguro, póliza, Iberia, DNI..." oninput="render()"/></div>
+  <div class="fd" id="feed"></div>
+  <button class="fab" onclick="openForm()">+</button>
+</div>
 
-  <div class="fd" id="feed">
-    <div class="ey" id="emp">
-      <div class="ey-g">🎙</div>
-      <div class="ey-t">Di algo para empezar</div>
-      <div class="ey-s">Pulsa el micro, habla, y elige qué hacer: guardar, resumir en bullets, preparar post o enviar por WhatsApp.</div>
+<!-- FORM -->
+<div class="ov" id="formO">
+  <div class="md">
+    <div class="md-b"></div>
+    <h2 id="formT">Nuevo registro</h2>
+    <div class="chips" id="catChips"></div>
+    <div class="fl"><label>Nombre</label><input type="text" id="fNm" placeholder="ej: Seguro coche — Mapfre"/></div>
+    <div class="fl"><label>Datos</label><div id="frs"></div>
+      <button class="addf" onclick="addFieldRow()">+ añadir campo</button>
+      <div class="hn">El candado 🔒 marca un dato como sensible: se muestra oculto y solo se ve al pulsar el ojo.</div>
     </div>
-  </div>
-
-  <div class="vb">
-    <div class="vb-in">
-      <button class="mb" id="mic" onclick="toggleMic()">🎤</button>
-      <div class="vs"><div class="vl" id="vL">micrófono</div><div class="vt dm" id="vT">Pulsa para hablar</div></div>
-      <div class="wv off" id="wv"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="row2">
+      <div class="fl"><label>Vence / renueva</label><input type="date" id="fDt"/></div>
+      <div class="fl"><label>Avisar antes</label><select id="fRm">
+        <option value="0">Sin aviso</option><option value="30">30 días</option>
+        <option value="60" selected>60 días</option><option value="90">90 días</option>
+      </select></div>
     </div>
+    <div class="fl"><label>Notas</label><textarea id="fNo" placeholder="ej: llamar antes de renovar para negociar precio"></textarea></div>
+    <button class="sv" onclick="submitForm()">GUARDAR</button>
   </div>
 </div>
 
-<!-- Settings -->
+<!-- DETAIL -->
+<div class="ov" id="dtO"><div class="md" id="dtMd"></div></div>
+
+<!-- SETTINGS -->
 <div class="ov" id="cfgO">
   <div class="md">
     <div class="md-b"></div>
-    <h2>⚙ Configuración</h2>
-    <div class="fl"><label>API Key OpenAI</label><input type="password" id="cApi" placeholder="sk-..." /><div class="hn">platform.openai.com → API Keys → Create</div></div>
-    <div class="fl"><label>Tu nombre</label><input type="text" id="cNm" placeholder="Tu nombre" /></div>
-    <div class="fl"><label>Contexto de trabajo</label><input type="text" id="cCx" placeholder="ej: CEO de startup de marketing" /></div>
-    <div class="fl"><label>Cambiar PIN</label><input type="password" id="cPn" placeholder="Nuevo PIN (opcional)" maxlength="8" inputmode="numeric" /></div>
-    <div class="sec">📱 WhatsApp</div>
-    <div class="fl"><label>Tu número WhatsApp</label><input type="tel" id="cWa" placeholder="+34612345678" /><div class="hn">Con código de país. Para enviarte notas a ti mismo.</div></div>
-    <button class="sv" onclick="saveCfg()">GUARDAR</button>
+    <h2>⚙ Ajustes</h2>
+    <div class="sec-t">🔔 Avisos en tu calendario</div>
+    <button class="sv ghost" onclick="exportICS()">📅 Exportar avisos (.ics)</button>
+    <div class="hn">Descarga un archivo con un evento por cada vencimiento (en la fecha del aviso). Ábrelo y se añaden a Google Calendar — así te avisa el móvil aunque no abras MOU.</div>
+    <div class="sec-t">💾 Copia de seguridad</div>
+    <button class="sv ghost" onclick="exportBackup()">⬇ Descargar copia cifrada</button>
+    <div class="hn">El archivo va cifrado con tu PIN: puedes guardarlo en Drive o email sin riesgo. Hazla de vez en cuando: si pierdes el móvil, es la única forma de recuperar tus datos.</div>
+    <button class="sv ghost" onclick="document.getElementById('impF').click()" style="margin-top:8px">⬆ Restaurar copia</button>
+    <input type="file" id="impF" accept=".json,application/json" style="display:none" onchange="importBackup(this)"/>
+    <div class="sec-t">🔑 Seguridad</div>
+    <div class="fl"><label>Cambiar PIN</label><input type="password" id="cPn" placeholder="Nuevo PIN (4-8 dígitos)" maxlength="8" inputmode="numeric"/></div>
+    <button class="sv" onclick="changePin()">GUARDAR NUEVO PIN</button>
+    <div class="hn" style="margin-top:10px">Tus datos viven cifrados (AES-256) solo en este móvil. No hay servidor ni nube: nadie más puede verlos. La app se bloquea sola a los 5 min en segundo plano.</div>
   </div>
 </div>
 
@@ -172,206 +218,314 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--tx);overs
 
 <script>
 const $=id=>document.getElementById(id);
-function xE(t,k){if(!t||!k)return t;let r='';for(let i=0;i<t.length;i++)r+=String.fromCharCode(t.charCodeAt(i)^k.charCodeAt(i%k.length));return btoa(r)}
-function xD(e,k){if(!e||!k)return e;try{const d=atob(e);let r='';for(let i=0;i<d.length;i++)r+=String.fromCharCode(d.charCodeAt(i)^k.charCodeAt(i%k.length));return r}catch(x){return e}}
+function esc(s){if(s==null)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML}
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('sh');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('sh'),2500)}
-function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML}
-function ago(iso){if(!iso)return'';const m=Math.floor((Date.now()-new Date(iso).getTime())/6e4);if(m<1)return'ahora';if(m<60)return m+'m';const h=Math.floor(m/60);if(h<24)return h+'h';return Math.floor(h/24)+'d'}
+const b64e=a=>btoa(String.fromCharCode(...new Uint8Array(a)));
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const MESES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fmtDate(iso){if(!iso)return'';const d=new Date(iso+'T00:00:00');return d.getDate()+' '+MESES[d.getMonth()]+' '+d.getFullYear()}
+function daysUntil(iso){const d=new Date(iso+'T00:00:00');const t=new Date();t.setHours(0,0,0,0);return Math.round((d-t)/864e5)}
 
-let items=JSON.parse(localStorage.getItem('mou4_i')||'[]');
-let cfg=JSON.parse(localStorage.getItem('mou4_c')||'{}');
-let pin=localStorage.getItem('mou4_p')||'';
-let isOn=false,isPr=false,recog=null;
+const CATS={
+  seguro:{n:'Seguros',i:'🛡️',c:'var(--ac)',bg:'var(--ac2)'},
+  suministro:{n:'Suministros',i:'💡',c:'var(--am)',bg:'var(--am2)'},
+  cuota:{n:'Cuotas y clubes',i:'🎫',c:'var(--vl)',bg:'var(--vl2)'},
+  documento:{n:'Documentos',i:'🪪',c:'var(--bl)',bg:'var(--bl2)'},
+  tarjeta:{n:'Tarjetas y puntos',i:'✈️',c:'var(--pk)',bg:'var(--pk2)'},
+  otro:{n:'Otros',i:'📦',c:'var(--tx2)',bg:'var(--s3)'}
+};
+const TPL={
+  seguro:[['Aseguradora',0],['Nº póliza',0],['Teléfono',0],['Prima anual (€)',0]],
+  suministro:[['Compañía',0],['Nº contrato',0],['Teléfono',0],['Importe mensual (€)',0]],
+  cuota:[['Entidad',0],['Nº socio',0],['Cuota anual (€)',0],['Teléfono',0]],
+  documento:[['Número',1],['Titular',0]],
+  tarjeta:[['Programa',0],['Nº tarjeta',1],['Nivel / categoría',0]],
+  otro:[['Dato',0]]
+};
 
-// ── Lock ──
-function tryUnlock(){const v=$('pinIn').value;if(!pin){if(v.length<4){toast('⚠ Mínimo 4 dígitos');return}pin=v;localStorage.setItem('mou4_p',pin);unlock()}else if(v===pin)unlock();else{$('lockErr').style.display='block';$('pinIn').value=''}}
-function unlock(){$('lock').classList.add('off');$('app').style.display='flex';loadUI();render()}
-function lockApp(){$('lock').classList.remove('off');$('app').style.display='none';$('pinIn').value='';$('lockErr').style.display='none';stopPTT()}
-$('pinIn').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
+// ── State ──
+let vault=null;   // {items:[{id,cat,name,fields:[{k,v,s}],date,remind,notes,ts}]}
+let vaultKey=null, vaultSalt=null;
+let editId=null, formCat='seguro';
+const STORE='mouv';
 
-// ── Config ──
-function loadUI(){$('cApi').value=cfg.ak?xD(cfg.ak,pin):'';$('cNm').value=cfg.nm||'';$('cCx').value=cfg.cx||'';$('cWa').value=cfg.wa||'';if(!cfg.ak)setTimeout(openCfg,300)}
-function openCfg(){$('cfgO').classList.add('op')}
-function saveCfg(){
-  const raw=$('cApi').value.trim(),np=$('cPn').value.trim();
-  if(np&&np.length>=4){pin=np;localStorage.setItem('mou4_p',pin)}
-  cfg={ak:raw?xE(raw,pin):'',nm:$('cNm').value.trim(),cx:$('cCx').value.trim(),wa:$('cWa').value.trim()};
-  localStorage.setItem('mou4_c',JSON.stringify(cfg));$('cfgO').classList.remove('op');toast('✓ Guardado')
+// ── Crypto (AES-GCM, clave derivada del PIN con PBKDF2) ──
+async function deriveKey(pin,salt){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
 }
-$('cfgO').addEventListener('click',e=>{if(e.target.id==='cfgO')e.target.classList.remove('op')});
-
-// ── Speech Recognition ──
-let pttS=[];let silT=null;
-function killSR(){if(recog){try{recog.abort()}catch(e){}recog=null}clearTimeout(silT)}
-function toggleMic(){if(isPr)return;if(isOn)sendPTT();else startPTT()}
-
-function startPTT(){
-  killSR();pttS=[];isOn=true;
-  $('mic').classList.add('on');$('mic').textContent='⏹';
-  $('vL').textContent='escuchando...';$('vT').textContent='Habla ahora...';$('vT').classList.add('dm');$('wv').classList.remove('off');
-  launchPTT()
+async function encVault(){
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},vaultKey,new TextEncoder().encode(JSON.stringify(vault)));
+  localStorage.setItem(STORE,JSON.stringify({v:1,salt:b64e(vaultSalt),iv:b64e(iv),ct:b64e(ct)}));
 }
-
-function launchPTT(){
-  const S=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!S){toast('⚠ Sin soporte de voz');return}
-  recog=new S();recog.lang='es-ES';recog.interimResults=true;recog.continuous=false;
-  recog.onresult=e=>{
-    let fin='',int='';
-    for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)fin+=e.results[i][0].transcript;else int+=e.results[i][0].transcript}
-    if(fin)pttS.push(fin.trim());
-    const show=(pttS.join('. ')+(int?' '+int:'')).trim();
-    $('vT').textContent=show||'Habla...';$('vT').classList.toggle('dm',!show);
-    clearTimeout(silT);silT=setTimeout(()=>{if(isOn&&pttS.length)sendPTT()},4000)
-  };
-  recog.onerror=e=>{if(e.error==='no-speech'){if(pttS.length)sendPTT();else if(isOn)setTimeout(()=>{if(isOn)launchPTT()},200)}else if(e.error!=='aborted'){toast('⚠ '+e.error);stopPTT()}};
-  recog.onend=()=>{if(!isOn||isPr)return;clearTimeout(silT);if(pttS.length)silT=setTimeout(()=>{if(isOn)sendPTT()},4000);setTimeout(()=>{if(isOn&&!isPr)launchPTT()},250)};
-  try{recog.start()}catch(e){}
-  if(!pttS.length){clearTimeout(silT);silT=setTimeout(()=>{if(isOn&&!pttS.length)stopPTT()},10000)}
+async function decVault(pin,blob){
+  const salt=b64d(blob.salt);
+  const key=await deriveKey(pin,salt);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(blob.iv)},key,b64d(blob.ct));
+  return {key,salt,data:JSON.parse(new TextDecoder().decode(pt))};
 }
+async function save(){try{await encVault()}catch(e){toast('⚠ Error guardando');console.error(e)}}
 
-function sendPTT(){const txt=pttS.join('. ').trim();stopPTT();if(txt.length>2)addRaw(txt)}
-function stopPTT(){isOn=false;killSR();pttS=[];$('mic').classList.remove('on');$('mic').textContent='🎤';$('wv').classList.add('off');$('vL').textContent='micrófono';$('vT').textContent='Pulsa para hablar';$('vT').classList.add('dm')}
-
-// ── Items ──
-function addRaw(text){
-  const it={id:Date.now(),status:'raw',text:text,processed:null,ts:new Date().toISOString()};
-  items.unshift(it);save();render();
-  toast('✓ Transcripción lista — elige acción')
+// ── Lock / boot ──
+const isNew=!localStorage.getItem(STORE);
+if(isNew){
+  $('lockMsg').innerHTML='Primera vez: crea tu PIN.<br>Con él se cifra todo lo que guardes.';
+  $('pin2Wrap').style.display='block';
+  $('unlockBtn').textContent='CREAR Y ENTRAR';
 }
-
-function save(){localStorage.setItem('mou4_i',JSON.stringify(items))}
-
-function delIt(id){items=items.filter(i=>i.id!==id);save();render()}
-
-// ── Actions ──
-function doSave(id){
-  const it=items.find(i=>i.id===id);if(!it)return;
-  it.status='saved';save();render();toast('💾 Guardada')
-}
-
-async function doSummary(id){
-  const it=items.find(i=>i.id===id);if(!it)return;
-  const result=await callGPT(
-    `Resume este texto en bullets concisos en castellano. Solo bullets, nada más:\n\n${it.text}`
-  );
-  if(result){it.processed=result;it.status='summary';save();render();toast('📋 Resumen listo')}
-}
-
-async function doPost(id){
-  const it=items.find(i=>i.id===id);if(!it)return;
-  const result=await callGPT(
-    `A partir de este texto, genera un post profesional en castellano con este formato exacto:
-
-TÍTULO: (título atractivo)
-SLUG: (slug-en-minusculas-con-guiones)
-META TITLE: (máx 60 caracteres, SEO)
-META DESCRIPTION: (máx 155 caracteres, SEO)
-
-POST:
-(contenido del post, profesional, con gancho, 150-300 palabras)
-
-Texto original:\n${it.text}`
-  );
-  if(result){it.processed=result;it.status='post';save();render();toast('✏️ Post generado')}
-}
-
-function doWhatsApp(id){
-  const it=items.find(i=>i.id===id);if(!it)return;
-  const text=it.processed||it.text;
-  const num=(cfg.wa||'').replace(/[^0-9]/g,'');
-  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(text));
-  it.status='sent';save();render();toast('📱 Abriendo WhatsApp')
-}
-
-// ── GPT Call ──
-async function callGPT(prompt){
-  if(!cfg.ak){toast('⚠ Configura API key en ⚙');openCfg();return null}
-  isPr=true;$('mic').classList.add('pr');$('mic').textContent='⏳';$('vL').textContent='procesando...';
-
-  try{
-    const key=xD(cfg.ak,pin);
-    if(!key||key.length<10)throw new Error('API key inválida');
-    const r=await fetch('https://api.openai.com/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-      body:JSON.stringify({model:'gpt-4o-mini',messages:[
-        {role:'system',content:`Eres MOU, asistente ejecutivo. Responde SOLO en castellano. Sé conciso y profesional. Contexto: ${cfg.nm||'Usuario'}, ${cfg.cx||'profesional'}.`},
-        {role:'user',content:prompt}
-      ],max_tokens:800,temperature:0.7})
-    });
-    if(!r.ok){const e=await r.text();throw new Error('Error '+r.status+': '+e.substring(0,100))}
-    const d=await r.json();
-    return d.choices?.[0]?.message?.content||null;
-  }catch(err){
-    console.error(err);toast('⚠ '+err.message);return null;
-  }finally{
-    isPr=false;$('mic').classList.remove('pr');$('mic').textContent='🎤';
-    $('vL').textContent='micrófono';$('vT').textContent='Pulsa para hablar';$('vT').classList.add('dm')
+async function tryUnlock(){
+  const v=$('pinIn').value.trim();
+  $('lockErr').style.display='none';
+  if(!localStorage.getItem(STORE)){
+    if(v.length<4){toast('⚠ Mínimo 4 dígitos');return}
+    if(v!==$('pinIn2').value.trim()){$('lockErr').textContent='Los PIN no coinciden';$('lockErr').style.display='block';return}
+    vaultSalt=crypto.getRandomValues(new Uint8Array(16));
+    vaultKey=await deriveKey(v,vaultSalt);
+    vault={items:[]};
+    await encVault();
+    unlock();
+  }else{
+    try{
+      const blob=JSON.parse(localStorage.getItem(STORE));
+      const r=await decVault(v,blob);
+      vaultKey=r.key;vaultSalt=r.salt;vault=r.data;
+      unlock();
+    }catch(e){$('lockErr').textContent='PIN incorrecto';$('lockErr').style.display='block';$('pinIn').value=''}
   }
 }
+function unlock(){$('lock').classList.add('off');$('app').style.display='flex';render()}
+function lockApp(){vaultKey=null;vault=null;$('lock').classList.remove('off');$('app').style.display='none';$('pinIn').value='';$('pinIn2').value='';$('lockErr').style.display='none';closeAll()}
+$('pinIn').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
+$('pinIn2')&&$('pinIn2').addEventListener('keydown',e=>{if(e.key==='Enter')tryUnlock()});
+
+// Auto-lock tras 5 min en segundo plano
+let hiddenAt=0;
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)hiddenAt=Date.now();
+  else if(vaultKey&&hiddenAt&&Date.now()-hiddenAt>5*60*1000)lockApp();
+});
 
 // ── Render ──
+function dueInfo(it){
+  if(!it.date)return null;
+  const d=daysUntil(it.date);
+  if(d<0)return{d,txt:'CADUCADO hace '+(-d)+'d',cls:'red'};
+  if(d===0)return{d,txt:'VENCE HOY',cls:'red'};
+  if(d<=15)return{d,txt:'vence en '+d+'d',cls:'red'};
+  if(it.remind&&d<=it.remind)return{d,txt:'vence en '+d+'d',cls:'amber'};
+  return{d,txt:fmtDate(it.date),cls:'ok'};
+}
+function subtitle(it){
+  const f=(it.fields||[]).find(f=>!f.s&&f.v);
+  return f?f.v:(it.notes||'').split('\n')[0];
+}
+function matches(it,q){
+  if(!q)return true;q=q.toLowerCase();
+  if(it.name.toLowerCase().includes(q))return true;
+  if((it.notes||'').toLowerCase().includes(q))return true;
+  if(CATS[it.cat]&&CATS[it.cat].n.toLowerCase().includes(q))return true;
+  return (it.fields||[]).some(f=>(f.k+' '+f.v).toLowerCase().includes(q));
+}
 function render(){
-  const f=$('feed'),e=$('emp');
-  if(!items.length){f.innerHTML='';f.appendChild(e);e.style.display='flex';return}
-  e.style.display='none';
+  const f=$('feed'),q=$('q').value.trim();
+  if(!vault)return;
+  const items=vault.items.filter(it=>matches(it,q));
+  if(!vault.items.length){
+    f.innerHTML=`<div class="ey"><div class="ey-g">🗂️</div><div class="ey-t">Tu archivo está vacío</div>
+    <div class="ey-s">Pulsa <b>+</b> y guarda tus seguros, suministros, cuotas, documentos y tarjetas. Todo cifrado, todo en tu móvil, siempre a mano.</div></div>`;
+    return;
+  }
+  if(!items.length){f.innerHTML=`<div class="ey"><div class="ey-g">🔍</div><div class="ey-t">Sin resultados</div></div>`;return}
 
-  f.innerHTML=items.map(it=>{
-    const tags={raw:'raw',saved:'saved',summary:'summary',post:'post',sent:'sent'};
-    const labels={raw:'📝 Nueva',saved:'💾 Guardada',summary:'📋 Resumen',post:'✏️ Post',sent:'📱 Enviada'};
-
-    // Show processed content or raw text
-    const display=it.processed
-      ? esc(it.processed).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-      : esc(it.text);
-
-    // Action buttons based on status
-    let acts='';
-    if(it.status==='raw'){
-      acts=`
-        <button class="cb green" onclick="doSave(${it.id})">💾 Guardar</button>
-        <button class="cb purple" onclick="doSummary(${it.id})">📋 Resumir</button>
-        <button class="cb orange" onclick="doPost(${it.id})">✏️ Post</button>
-        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 WhatsApp</button>`;
-    } else if(it.status==='summary'||it.status==='post'){
-      acts=`
-        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 Enviar WhatsApp</button>
-        <button class="cb" onclick="cpIt(${it.id})">📋 Copiar</button>`;
-    } else if(it.status==='saved'){
-      acts=`
-        <button class="cb purple" onclick="doSummary(${it.id})">📋 Resumir</button>
-        <button class="cb orange" onclick="doPost(${it.id})">✏️ Post</button>
-        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 WhatsApp</button>
-        <button class="cb" onclick="cpIt(${it.id})">📋 Copiar</button>`;
-    } else {
-      acts=`<button class="cb" onclick="cpIt(${it.id})">📋 Copiar</button>
-        <button class="cb whatsapp" onclick="doWhatsApp(${it.id})">📱 Reenviar</button>`;
-    }
-
-    return `<div class="cd${it.status==='raw'?' pending':''}">
-      <div class="cd-top">
-        <span class="cd-tag ${tags[it.status]||'raw'}">${labels[it.status]||'Nueva'}</span>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="cd-time">${ago(it.ts)}</span>
-          <button class="cd-del" onclick="delIt(${it.id})">✕</button>
-        </div>
-      </div>
-      ${it.processed?'<div style="font-size:10px;color:var(--tx3);margin-bottom:4px;font-style:italic">Original: "'+esc(it.text).substring(0,80)+'..."</div>':''}
-      <div class="cd-body">${display}</div>
-      <div class="cd-acts">${acts}</div>
-    </div>`;
-  }).join('')
+  let html='';
+  // Vencimientos
+  const due=items.map(it=>({it,inf:dueInfo(it)}))
+    .filter(x=>x.inf&&(x.inf.d<0||x.inf.d<=(x.it.remind||0)||x.inf.d<=15))
+    .sort((a,b)=>a.inf.d-b.inf.d);
+  if(due.length&&!q){
+    html+=`<div class="due"><div class="due-h">⚠ Vencimientos próximos</div>`+
+    due.map(({it,inf})=>`<div class="dc${inf.cls==='red'?' red':''}" onclick="openDetail(${it.id})">
+      <div><div class="dc-n">${esc(it.name)}</div><div class="dc-s">${esc(subtitle(it))}</div></div>
+      <div class="dc-d ${inf.cls}">${inf.txt}<br><span style="opacity:.6;font-weight:400">${fmtDate(it.date)}</span></div>
+    </div>`).join('')+`</div>`;
+  }
+  // Secciones por categoría
+  for(const[ck,c]of Object.entries(CATS)){
+    const its=items.filter(i=>i.cat===ck);
+    if(!its.length)continue;
+    html+=`<div class="sec-h"><span class="dot" style="background:${c.c}"></span>${c.i} ${c.n} · ${its.length}</div>`;
+    html+=its.map(it=>{
+      const inf=dueInfo(it);
+      return `<div class="it" onclick="openDetail(${it.id})">
+        <div style="min-width:0"><div class="it-n">${esc(it.name)}</div><div class="it-s">${esc(subtitle(it))}</div></div>
+        ${inf?`<span class="bdg ${inf.cls}">${inf.cls==='ok'?inf.txt:inf.txt}</span>`:''}
+      </div>`;
+    }).join('');
+  }
+  f.innerHTML=html;
 }
 
-function cpIt(id){const it=items.find(i=>i.id===id);if(!it)return;navigator.clipboard.writeText(it.processed||it.text);toast('📋 Copiado')}
+// ── Detail ──
+let revealed={};
+function openDetail(id){
+  const it=vault.items.find(i=>i.id===id);if(!it)return;
+  revealed={};
+  renderDetail(it);
+  $('dtO').classList.add('op');
+}
+function renderDetail(it){
+  const c=CATS[it.cat]||CATS.otro;
+  const inf=dueInfo(it);
+  $('dtMd').innerHTML=`<div class="md-b"></div>
+  <div class="dt-tag" style="background:${c.bg};color:${c.c}">${c.i} ${c.n}</div>
+  <h2 style="margin-bottom:12px">${esc(it.name)}</h2>
+  ${(it.fields||[]).filter(f=>f.v).map((f,ix)=>`
+    <div class="dt-f">
+      <div class="dt-f-l"><div class="dt-f-k">${esc(f.k)}</div>
+      <div class="dt-f-v${f.s&&!revealed[ix]?' masked':''}">${f.s&&!revealed[ix]?'••••••••':esc(f.v)}</div></div>
+      ${f.s?`<button onclick="toggleReveal(${it.id},${ix})">${revealed[ix]?'🙈':'👁'}</button>`:''}
+      <button onclick="copyVal(${it.id},${ix})">📋</button>
+    </div>`).join('')}
+  ${it.date?`<div class="dt-date ${inf.cls}">📅 ${inf.cls==='ok'?'Vence: '+fmtDate(it.date):inf.txt+' — '+fmtDate(it.date)}${it.remind?`<span style="margin-left:auto;font-size:10px;opacity:.7">aviso ${it.remind}d antes</span>`:''}</div>`:''}
+  ${it.notes?`<div class="dt-notes">${esc(it.notes)}</div>`:''}
+  <div class="dt-acts">
+    <button onclick="openForm(${it.id})">✏️ Editar</button>
+    <button class="del" onclick="delItem(${it.id})">🗑</button>
+  </div>`;
+}
+function toggleReveal(id,ix){revealed[ix]=!revealed[ix];const it=vault.items.find(i=>i.id===id);if(it)renderDetail(it)}
+function copyVal(id,ix){
+  const it=vault.items.find(i=>i.id===id);if(!it)return;
+  const f=(it.fields||[]).filter(f=>f.v)[ix];if(!f)return;
+  navigator.clipboard.writeText(f.v).then(()=>toast('📋 '+f.k+' copiado')).catch(()=>toast('⚠ No se pudo copiar'));
+}
+function delItem(id){
+  if(!confirm('¿Borrar este registro?'))return;
+  vault.items=vault.items.filter(i=>i.id!==id);save();closeAll();render();toast('🗑 Borrado');
+}
+
+// ── Form ──
+function renderChips(){
+  $('catChips').innerHTML=Object.entries(CATS).map(([k,c])=>
+    `<div class="chip${k===formCat?' sel':''}" onclick="pickCat('${k}')">${c.i} ${c.n}</div>`).join('');
+}
+function pickCat(k){
+  formCat=k;renderChips();
+  if(editId===null){
+    const rows=[...document.querySelectorAll('#frs .fr')];
+    const touched=rows.some(r=>r.querySelector('.fr-v').value.trim());
+    if(!touched){$('frs').innerHTML='';TPL[k].forEach(([l,s])=>addFieldRow(l,'',s))}
+  }
+}
+function addFieldRow(label,value,secret){
+  const d=document.createElement('div');d.className='fr';
+  d.innerHTML=`<input class="fr-l" placeholder="Campo" value="${esc(label||'')}">
+  <input class="fr-v" placeholder="Valor" value="${esc(value||'')}">
+  <button type="button" class="frs-b${secret?' on':''}" onclick="this.classList.toggle('on')" title="sensible">${'🔒'}</button>
+  <button type="button" onclick="this.parentElement.remove()">✕</button>`;
+  $('frs').appendChild(d);
+}
+function openForm(id){
+  closeAll();
+  editId=(typeof id==='number')?id:null;
+  $('formT').textContent=editId!==null?'Editar registro':'Nuevo registro';
+  $('frs').innerHTML='';
+  if(editId!==null){
+    const it=vault.items.find(i=>i.id===editId);if(!it)return;
+    formCat=it.cat;$('fNm').value=it.name;$('fDt').value=it.date||'';$('fRm').value=String(it.remind||0);$('fNo').value=it.notes||'';
+    (it.fields||[]).forEach(f=>addFieldRow(f.k,f.v,f.s));
+    if(!(it.fields||[]).length)addFieldRow();
+  }else{
+    formCat='seguro';$('fNm').value='';$('fDt').value='';$('fRm').value='60';$('fNo').value='';
+    TPL[formCat].forEach(([l,s])=>addFieldRow(l,'',s));
+  }
+  renderChips();
+  $('formO').classList.add('op');
+}
+function submitForm(){
+  const name=$('fNm').value.trim();
+  if(!name){toast('⚠ Ponle un nombre');return}
+  const fields=[...document.querySelectorAll('#frs .fr')].map(r=>({
+    k:r.querySelector('.fr-l').value.trim(),
+    v:r.querySelector('.fr-v').value.trim(),
+    s:r.querySelector('.frs-b').classList.contains('on')?1:0
+  })).filter(f=>f.k||f.v);
+  const data={cat:formCat,name,fields,date:$('fDt').value||'',remind:parseInt($('fRm').value)||0,notes:$('fNo').value.trim()};
+  if(editId!==null){
+    const it=vault.items.find(i=>i.id===editId);Object.assign(it,data);
+  }else{
+    vault.items.unshift({id:Date.now(),ts:new Date().toISOString(),...data});
+  }
+  save();closeAll();render();toast('✓ Guardado');
+}
+
+// ── Settings ──
+function openCfg(){closeAll();$('cfgO').classList.add('op')}
+async function changePin(){
+  const np=$('cPn').value.trim();
+  if(np.length<4){toast('⚠ Mínimo 4 dígitos');return}
+  vaultSalt=crypto.getRandomValues(new Uint8Array(16));
+  vaultKey=await deriveKey(np,vaultSalt);
+  await encVault();
+  $('cPn').value='';toast('🔑 PIN cambiado');
+}
+function dl(name,content,type){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+}
+function exportBackup(){
+  const blob=localStorage.getItem(STORE);if(!blob)return;
+  const d=new Date(),pad=n=>String(n).padStart(2,'0');
+  dl(`mou-copia-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}.json`,blob,'application/json');
+  toast('⬇ Copia descargada (cifrada)');
+}
+function importBackup(inp){
+  const file=inp.files[0];if(!file)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const blob=JSON.parse(rd.result);
+      if(!blob.ct||!blob.salt||!blob.iv)throw new Error('formato');
+      if(!confirm('Esto SUSTITUYE los datos actuales por la copia. ¿Seguir?'))return;
+      localStorage.setItem(STORE,rd.result);
+      toast('✓ Copia restaurada — entra con el PIN de esa copia');
+      setTimeout(()=>location.reload(),1200);
+    }catch(e){toast('⚠ Archivo no válido')}
+  };
+  rd.readAsText(file);inp.value='';
+}
+function icsDate(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())}
+function exportICS(){
+  const evs=vault.items.filter(i=>i.date&&i.remind>0);
+  if(!evs.length){toast('⚠ No hay registros con fecha y aviso');return}
+  let ics='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//MOU//ES\r\nCALSCALE:GREGORIAN\r\n';
+  for(const it of evs){
+    const venc=new Date(it.date+'T00:00:00');
+    const aviso=new Date(venc);aviso.setDate(aviso.getDate()-it.remind);
+    const fin=new Date(aviso);fin.setDate(fin.getDate()+1);
+    ics+='BEGIN:VEVENT\r\nUID:mou-'+it.id+'@mou-app\r\n'
+      +'DTSTART;VALUE=DATE:'+icsDate(aviso)+'\r\nDTEND;VALUE=DATE:'+icsDate(fin)+'\r\n'
+      +'SUMMARY:📞 MOU: '+it.name.replace(/[,;\\]/g,' ')+' vence el '+fmtDate(it.date)+'\r\n'
+      +'DESCRIPTION:Quedan '+it.remind+' días. Llama para renovar\\, negociar o cambiar.\r\n'
+      +'END:VEVENT\r\n';
+  }
+  ics+='END:VCALENDAR\r\n';
+  dl('mou-avisos.ics',ics,'text/calendar');
+  toast('📅 Ábrelo para añadir a tu calendario');
+}
+
+// ── Misc ──
+function closeAll(){document.querySelectorAll('.ov').forEach(o=>o.classList.remove('op'))}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('op')}));
 
 // ── PWA ──
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(e=>console.log(e));
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installBtn').style.display='block'});
 window.addEventListener('appinstalled',()=>{$('installBtn').style.display='none';deferredPrompt=null;toast('✅ MOU instalado')});
-function doInstall(){if(!deferredPrompt){toast('Menú ⋮ → Añadir a pantalla de inicio');return}deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{deferredPrompt=null;$('installBtn').style.display='none'})}
+function doInstall(){if(!deferredPrompt){toast('Menú ⋮ → Añadir a pantalla de inicio');return}deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;$('installBtn').style.display='none'})}
 </script>
 </body>
 </html>
